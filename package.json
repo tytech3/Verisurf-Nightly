@@ -2,7 +2,7 @@
   "name": "verisurf.nightly",
   "version": "0.9.9",
   "main": "public/Main.js",
-  "private": true,
+  "private": false,
   "homepage": "./",
   "dependencies": {
     "@auth0/s3": "^1.0.0",
@@ -63,7 +63,7 @@
       {
         "provider": "github",
         "owner": "tytech3",
-        "repo": "verisurf.nightly",
+        "repo": "reactron",
         "private": false
       }
     ],
