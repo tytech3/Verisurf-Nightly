@@ -65,8 +65,8 @@ const styles = theme => ({
 })
 
 AWS.config.update({
-  accessKeyId: "AKIAIF77IPCKK74GYAPA",
-  secretAccessKey: "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"
+  accessKeyId: localStorage.getItem('s3AccessKey'),
+  secretAccessKey: localStorage.getItem('s3SecretKey')
 })
 const {ipcRenderer} = window.require('electron');
 var isMounted = false;
