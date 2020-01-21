@@ -10,7 +10,7 @@ let win
 let installPath
 
 const nativeImage = require('electron').nativeImage;
-let image = nativeImage.createFromPath(__dirname + './verisurfround.png'); 
+let image = nativeImage.createFromPath(__dirname + './icon.png'); 
  // where public folder on the root dir
 
 
