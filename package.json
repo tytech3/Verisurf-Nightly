@@ -64,8 +64,7 @@
         "provider": "github",
         "owner": "tytech3",
         "repo": "verisurf.nightly",
-        "private": true,
-        "token": "c070418eded87a29edc8b28829c597010ea11d14"
+        "private": false
       }
     ],
     "appId": "com.verisurfsoftware.nightly",
