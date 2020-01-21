@@ -1,9 +1,6 @@
 import React from 'react';
 import './HomePage.css';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import VerisurfCard from '../components/verisurfCard';
-import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 import ApexChart from '../components/ApexChart.js';
 import { withStyles } from "@material-ui/core/styles";
@@ -104,7 +101,7 @@ class HomePage extends React.Component {
                        {this.props.latestBuild}
                     </Typography>
                     <Typography variant="h5" style={{color: 'white', textAlign: 'center', marginTop: '0rem'}}>
-                       Latest BuildZ
+                       Latest Build
                     </Typography>
                 </Paper>
 

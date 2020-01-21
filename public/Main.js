@@ -27,9 +27,9 @@ function createWindow () {
 
   // and load the index.html of the app.
   //switch to this when you need to build.
-  //win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
+  win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   //for prod do this:
-  win.loadURL(`http://localhost:3000`);
+  //win.loadURL(`http://localhost:3000`);
  
 
   
