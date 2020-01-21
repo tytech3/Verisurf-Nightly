@@ -31,7 +31,7 @@ function createWindow () {
   win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   //for prod do this:
   //win.loadURL(`http://localhost:3000`);
- 
+  //win.webContents.openDevTools();
   win.setMenu(null);
   // Emitted when the window is closed.
   win.on('closed', () => {

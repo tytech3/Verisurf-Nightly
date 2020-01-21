@@ -68,11 +68,7 @@ class Auth extends Component {
             loginResult: false,
         }
     }
-
-    componentDidMount(){
-
-    }
-
+    
     checkCreds = () => {
       console.log("updating s3 with \nAccessKeyId: " + this.accessKey + "\nSecret: " + this.secretKey);
       AWS.config.update({

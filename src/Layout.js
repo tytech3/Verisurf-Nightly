@@ -14,6 +14,7 @@ import Fade from 'react-reveal/Fade';
 import AWS from 'aws-sdk';
 
 
+
 AWS.config.update({
     accessKeyId: localStorage.getItem('s3AccessKey'),
     secretAccessKey: localStorage.getItem('s3SecretKey')
@@ -32,13 +33,18 @@ class Layout extends Component {
 
         this.state ={
             version: '',
-            newNightly: 0,
+            noNewNightly: true,
+            authorized: true
         }
     }
 
     //inject install into child component, testPage
     install = (version) => {
         this.child.installFiles(version);
+    }
+
+    clearNewNightly = () => {
+        this.setState({noNewNightly: true})
     }
 
     componentDidMount = () => {
@@ -52,7 +58,7 @@ class Layout extends Component {
         };
         var that = this;
         s3.getObject(params, function(err, data){
-            if(err) {return <Auth />}
+            if(err) {that.setState({authorized: false})}
             else {
                 var response = new TextDecoder('utf-8').decode(data.Body)
                 var json = JSON.parse(response)
@@ -63,12 +69,18 @@ class Layout extends Component {
 
                 that.graphDataPassing = [inner['Q1']['passing'], inner['Q2']['passing'], inner['Q3']['passing'], inner['Q4']['passing']]
                 that.graphDataFailing = [inner['Q1']['failing'], inner['Q2']['failing'], inner['Q3']['failing'], inner['Q4']['failing']]
+                if(that.latestBuild != localStorage.getItem('recentBuild')){
+                    that.setState({noNewNightly: false})
+                }
             }
         })
     }
 
 
     render() {
+        if(!this.state.authorized){
+            return <Auth />
+        }
         return (
             <div>
                 <Installer onRef={ref => (this.child = ref)}  />
@@ -89,7 +101,7 @@ class Layout extends Component {
 
                          <NavLink to={'/test'}  activeClassName="navOptionActive">
                             <div className={'navOption'}>
-                            <Badge badgeContent={this.state.newNightly} color="secondary" style={{position: 'absolute', marginLeft: '10rem', marginTop: '2.2rem'}}>
+                            <Badge variant="dot" invisible={this.state.noNewNightly} color="secondary" style={{position: 'absolute', marginLeft: '10rem', marginTop: '2.2rem'}}>
                             </Badge>
                                 <Brightness3Icon 
                                 style={{fontSize: 75, textAlign: 'center', alignSelf: 'center', 
@@ -124,7 +136,7 @@ class Layout extends Component {
                             graphDataFailing={this.graphDataFailing} />
                         </Route>
                         <Route exact path="/test">
-                            <TestPage  install={this.install} json={this.jsonresp} />
+                            <TestPage  install={this.install} json={this.jsonresp} clearBadge={this.clearNewNightly} />
                         </Route>
                         <Route exact path="/settings">
                             <Settings />

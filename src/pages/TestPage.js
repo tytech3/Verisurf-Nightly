@@ -97,6 +97,7 @@ class TestPage extends Component {
 
     componentDidMount = () => {
 
+        this.props.clearBadge();
 
         ipcRenderer.send("currentVersion");
         ipcRenderer.on("currentVersion", (event, arg) => {
@@ -121,6 +122,7 @@ class TestPage extends Component {
                 var json = JSON.parse(response)
                 var localCardArray = [];
                 var i = 0;
+                localStorage.setItem('recentBuild', Object.keys(json)[0]);
                 for(var item in json){
                     if(i > that.state.maxNightly){
                       break;
