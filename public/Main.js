@@ -25,17 +25,14 @@ function createWindow () {
     webPreferences: { nodeIntegration: true }
   })
 
+
   // and load the index.html of the app.
   //switch to this when you need to build.
   win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   //for prod do this:
   //win.loadURL(`http://localhost:3000`);
  
-
-  
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
+  win.setMenu(null);
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -56,15 +53,11 @@ regedit.setExternalVBSLocation('resources/regedit/vbs');
 
 
 
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow()
-  dialog.showMessageBox({
-    message: 'init updates'
-  })
  autoUpdater.checkForUpdates();
 })
 
@@ -92,38 +85,21 @@ autoUpdater.autoInstallOnAppQuit = true;
 
 autoUpdater.on('update-downloaded', () => {
   dialog.showMessageBox({
-    message: 'the update was downloaded.'
-  })
-})
-
-autoUpdater.on('checking-for-update', () => {
-  dialog.showMessageBox({
-    message: 'checking for update......'
+    message: 'An update was downloaded. It will be automatically installed when you close the application.'
   })
 })
 
 autoUpdater.on('update-available', () => {
-  dialog.showMessageBox({
-    message: "There is an update available."
-  })
   autoUpdater.downloadUpdate();
 })
 
 
-autoUpdater.on('update-not-available', () => {
-  dialog.showMessageBox({
-    message: "no update available."
-  })
-})
 
 
 autoUpdater.on('error', (error) => {
-  var x = error.toString();
+  var x = ("Please send the following error to Tyler: \n\n" + error.toString());
   dialog.showMessageBox({
     message: x
-  })
-  dialog.showMessageBox({
-    message: 'error'
   })
 })
 

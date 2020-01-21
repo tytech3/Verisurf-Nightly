@@ -9,6 +9,7 @@ import Installer from './pages/Installer.js';
 import HomePage from './pages/HomePage.js';
 import TestPage from './pages/TestPage.js';
 import Settings from './pages/Settings.js';
+import Auth from './pages/Auth.js';
 import Fade from 'react-reveal/Fade';
 import AWS from 'aws-sdk';
 
@@ -51,7 +52,7 @@ class Layout extends Component {
         };
         var that = this;
         s3.getObject(params, function(err, data){
-            if(err) {console.log(err, err.stack);}
+            if(err) {return <Auth />}
             else {
                 var response = new TextDecoder('utf-8').decode(data.Body)
                 var json = JSON.parse(response)
