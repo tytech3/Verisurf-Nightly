@@ -70,9 +70,7 @@
     "appId": "com.verisurfsoftware.nightly",
     "files": [
       "build/",
-      "node_modules/**/*",
-      "main.js",
-      "package.json"
+      "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets"
