@@ -88,7 +88,7 @@ app.on('activate', () => {
   }
 )
 
-
+autoUpdater.autoInstallOnAppQuit = true;
 
 autoUpdater.on('update-downloaded', () => {
   dialog.showMessageBox({

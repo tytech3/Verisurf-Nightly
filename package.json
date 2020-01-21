@@ -1,8 +1,11 @@
 {
   "name": "verisurf.nightly",
-  "version": "0.9.9",
+  "version": "1.0.0",
   "main": "public/Main.js",
-  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tytech3/reactron.git"
+  },
   "homepage": "./",
   "dependencies": {
     "@auth0/s3": "^1.0.0",
@@ -63,8 +66,7 @@
       {
         "provider": "github",
         "owner": "tytech3",
-        "repo": "reactron",
-        "private": false
+        "repo": "reactron"
       }
     ],
     "appId": "com.verisurfsoftware.nightly",
