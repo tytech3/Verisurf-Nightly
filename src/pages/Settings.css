@@ -1,0 +1,27 @@
+.settingsLayout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+.settingsHeader{
+    margin: 2rem;
+    margin-bottom: .5rem;
+    width: 100%;
+    text-align: left;
+}
+
+
+.optionsContainer{
+    height: 20rem;
+    width: 100%;
+    margin: 2rem;
+    margin-top: 0rem;
+
+    display: flex;
+}
+
+.optionsHeader {
+    margin-top: 1rem;
+}

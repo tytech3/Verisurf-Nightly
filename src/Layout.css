@@ -1,0 +1,66 @@
+.sideBar{
+    z-index: 3;
+    position: fixed;
+    width: 180px;
+    height: 100%;
+    text-align: center;
+    background-color: #1A262B;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .sideBar h1{
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+  }
+
+  .navSelect {
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+
+  .navOption {
+      flex: 1;
+      position: relative;
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      margin-top: 5%;
+      width: auto;
+      height: 150px;
+      margin-bottom: 10%;
+      justify-content: center;
+      background-color: none;
+  }
+  
+
+
+  .navOptionActive {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10%;
+  }
+  
+
+ 
+  .mainContent {
+    position: relative;
+    min-height: 100%;
+    width: auto;
+    margin-left: 180px;
+    text-align: center;
+    color: black;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+    
+  }
+  

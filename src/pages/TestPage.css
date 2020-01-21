@@ -1,0 +1,16 @@
+.cards {
+    width: 100%;
+    display: grid;
+    min-height: 100%;
+    position: relative;
+    margin-top: 1rem;
+}
+
+#currentDownload {
+    font-size: medium;
+}
+
+.downloadText{
+    position: 'absolute';
+    height: 50px;
+}
