@@ -89,7 +89,7 @@ class Settings extends Component {
                 </div>
                 <div style={{marginTop: 'auto'}}>
                     <Typography>
-                        VersionX: {config.version}
+                        Version: {config.version}
                     </Typography>
                 </div>
             </div>

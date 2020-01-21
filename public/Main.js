@@ -27,9 +27,9 @@ function createWindow () {
 
   // and load the index.html of the app.
   //switch to this when you need to build.
-  win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
+  //win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   //for prod do this:
-  //win.loadURL(`http://localhost:3000`);
+  win.loadURL(`http://localhost:3000`);
  
 
   
@@ -171,7 +171,10 @@ ipcMain.on("updateReg", (event, arg) => {
 //  ipcRenderer.send('downloadDir');
 
 ipcMain.on('downloadDir', (event, arg) => {
-  console.log(arg);
+
+  var version = arg.version;
+  var accessKey = arg.s3AccessKey
+  var secretKey = arg.s3SecretKey
 
   var s3 = require('@auth0/s3')
   var client = s3.createClient({
@@ -181,8 +184,8 @@ ipcMain.on('downloadDir', (event, arg) => {
     multipartUploadThreshold: 20971520, // this is the default (20 MB)
     multipartUploadSize: 15728640, // this is the default (15 MB)
     s3Options: {
-      accessKeyId: "AKIAIF77IPCKK74GYAPA",
-      secretAccessKey: "E/sxX0GvyouPE1BT0uWoO6/ThuSrlH/ha3lagYP8",
+      accessKeyId: accessKey,
+      secretAccessKey: secretKey,
       region: "us-west-2",
       // endpoint: 's3.yourdomain.com',
       // sslEnabled: false
@@ -198,7 +201,7 @@ ipcMain.on('downloadDir', (event, arg) => {
     deleteRemoved: false,
     s3Params:{
       Bucket: 'vs2020',
-      Prefix: 'nightly/' + arg + '/install/root'
+      Prefix: 'nightly/' + version + '/install/root'
     }
   });
 

@@ -5,12 +5,10 @@ import Input from '@material-ui/core/Input';
 import Typography from '@material-ui/core/Typography';
 import Layout from '../Layout.js'
 import AWS from 'aws-sdk';
+import Button from '@material-ui/core/Button';
 
 
-AWS.config.update({
-    accessKeyId: "AKIAIF77IPCKK74GYAPA",
-    secretAccessKey: "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"
-})
+
 
 var useStyles = theme => ({
     root: {
@@ -62,7 +60,8 @@ class Auth extends Component {
 
     constructor(){
         super();
-        this.inputText=''
+        this.accessKey = ''
+        this.secretKey = ''
         this.pass = null
 
         this.state={
@@ -71,20 +70,27 @@ class Auth extends Component {
     }
 
     componentDidMount(){
-        var s3 = new AWS.S3();
-        var params ={
-            Bucket: 'vs2020',
-            Key: 'nightly/auth/nightlypassword.txt',
-        };
-        var that = this;
-        s3.getObject(params, function(err, data){
-            if(err) {console.log(err, err.stack);}
-            else {
-                var response = new TextDecoder('utf-8').decode(data.Body)
-                console.log("res recv: " + response);
-                that.pass = response
-            }
-        })
+
+    }
+
+    checkCreds = () => {
+      console.log("updating s3 with \nAccessKeyId: " + this.accessKey + "\nSecret: " + this.secretKey);
+      AWS.config.update({
+        accessKeyId: this.accessKey,
+        secretAccessKey: this.secretKey
+    })
+      var s3 = new AWS.S3();
+      var params ={
+          Bucket: 'vs2020',
+          Key: 'nightly/nightly-stats/stats.json',
+      };
+      var that = this;
+      s3.getObject(params, function(err, data){
+          if(err) {console.log(err, err.stack);}
+          else {
+              that.setState({loginResult: true})
+          }
+      })
     }
 
     render() {
@@ -92,6 +98,8 @@ class Auth extends Component {
 
         if(this.state.loginResult){
             localStorage.setItem('auth', true);
+            localStorage.setItem('s3AccessKey', this.accessKey)
+            localStorage.setItem('s3SecretKey', this.secretKey);
             // TODO : loading auth token in to nedb. check it in index.js to persist an authenticated user.
             return <Layout />
         }
@@ -122,19 +130,15 @@ class Auth extends Component {
                 autoComplete="off"
                 onSubmit={(event) => {
                     event.preventDefault();
-                    if(this.inputText == this.pass && this.pass != null){
-                        this.setState({loginResult: true})
-                    }
-                    console.log(this.inputText)
                 }}>
                 <Input 
                     style={{width: '25vh', color: 'white', textAlign: 'center',}} 
-                    placeholder="Login Code" 
+                    placeholder="S3 Access Key" 
                     inputProps={{'aria-label': 'description'}}
                     underlineFocusStyle={{borderColor: 'white'}}
                     classes={{underline: classes.underline}}
                     onChange={(event)=> {
-                        this.inputText = event.target.value;
+                        this.accessKey = event.target.value;
                     }}
                     InputLabelProps={{
                         classes: {
@@ -151,6 +155,40 @@ class Auth extends Component {
                         }
                        }} />
               </form>
+
+              <form 
+              style={{marginTop: '1rem'}}
+              className={classes.root} 
+              autoComplete="off"
+              onSubmit={(event) => {
+                  event.preventDefault();
+              }}>   
+
+              <Input 
+                  style={{width: '25vh', color: 'white', textAlign: 'center',}} 
+                  placeholder="S3 Secret Key" 
+                  inputProps={{'aria-label': 'description'}}
+                  underlineFocusStyle={{borderColor: 'white'}}
+                  classes={{underline: classes.underline}}
+                  onChange={(event)=> {
+                      this.secretKey = event.target.value;
+                  }}
+                  InputLabelProps={{
+                      classes: {
+                        root: classes.cssLabel,
+                        focused: classes.cssFocused,
+                        underline: classes.underline,
+                      },
+                    }}
+                  InputProps={{
+                  classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                      }
+                     }} />
+            </form>
+            <Button variant="contained" style={{marginTop: '1rem'}} onClick={this.checkCreds}>Login</Button>
             </div>
         )
     }

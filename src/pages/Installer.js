@@ -5,9 +5,10 @@ import AWS from 'aws-sdk';
 const {ipcRenderer} = window.require('electron');
 
 var isMounted = false;
+
 AWS.config.update({
-    accessKeyId: "AKIAIF77IPCKK74GYAPA",
-    secretAccessKey: "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"
+    accessKeyId: localStorage.getItem('s3AccessKey'),
+    secretAccessKey: localStorage.getItem('s3SecretKey')
 })
 
 class Installer extends Component {
@@ -55,8 +56,13 @@ class Installer extends Component {
     
         console.log('Beginning download on: ' + this.downloadQueue[0]);
         
+        var arg = {
+          version: this.downloadQueue[0],
+          s3AccessKey: localStorage.getItem('s3AccessKey'),
+          s3SecretKey: localStorage.getItem('s3SecretKey')
+        }
         
-        ipcRenderer.send('downloadDir', this.downloadQueue[0]);
+        ipcRenderer.send('downloadDir', arg);
         ipcRenderer.send("downloaderPercentage")
     
         var that = this;
