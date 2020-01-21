@@ -104,7 +104,7 @@ class HomePage extends React.Component {
                        {this.props.latestBuild}
                     </Typography>
                     <Typography variant="h5" style={{color: 'white', textAlign: 'center', marginTop: '0rem'}}>
-                       Latest Build
+                       Latest BuildZ
                     </Typography>
                 </Paper>
 
