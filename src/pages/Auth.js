@@ -8,9 +8,6 @@ import AWS from 'aws-sdk';
 import SnackBar from '../components/SnackBar.js';
 import Button from '@material-ui/core/Button';
 
-
-
-
 var useStyles = theme => ({
     root: {
       '& > *': {
@@ -90,7 +87,7 @@ class Auth extends Component {
       };
       var that = this;
       s3.getObject(params, function(err, data){
-          if(err) {this.setState({openSnack: true})}
+          if(err) {that.setState({openSnack: true})}
           else {
               that.setState({loginResult: true})
           }
@@ -166,6 +163,7 @@ class Auth extends Component {
               autoComplete="off"
               onSubmit={(event) => {
                   event.preventDefault();
+                  this.checkCreds();
               }}>   
 
               <Input 
@@ -193,7 +191,7 @@ class Auth extends Component {
                      }} />
             </form>
             <Button variant="contained" style={{marginTop: '1rem'}} onClick={this.checkCreds}>Login</Button>
-            { this.state.openSnack && <SnackBar result={this.errorMessage} variant={this.variant} clear={this.closeSnack} close={this.clsoeSnack}/> }
+            { this.state.openSnack && <SnackBar result={this.errorMessage} variant={this.variant} clear={this.closeSnack} close={this.closeSnack}/> }
             </div>
         )
     }
