@@ -35,6 +35,10 @@ export default class ApexChart extends React.Component {
           },
           legend:{
             show: true,
+            showForSingleSeries: true,
+            showForNullSeries: true,
+            showForZeroSeries: true,
+            position: 'bottom'
           }
         },    
       };

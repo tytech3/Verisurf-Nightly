@@ -110,15 +110,11 @@ class HomePage extends React.Component {
                 </div>
                 </Fade>
                 <div style={{marginTop: 'auto', marginBottom: '2rem', marignLeft: '5%', marignRight: '5%', backgroundColor: '#FFFFFF', borderRadius: '3%'}}>
-
-                    <ApexChart graphDataPassing={this.props.graphDataPassing} failing={this.props.graphDataFailing} />
-
+                    <ApexChart graphDataPassing={this.props.graphDataPassing} graphDataFailing={this.props.graphDataFailing} />
                 </div>
-
             </div>
-
         );
-        //beep
+
     }
 }
 
