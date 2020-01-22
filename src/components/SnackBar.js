@@ -86,12 +86,10 @@ export default class CustomizedSnackbars extends React.Component {
   
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
-      console.log("clickaway'd");
       this.setState({open: false})
       this.props.close();
       return;
     }
-    console.log("not clickaway'd but below it.");
     this.props.close();
     this.setState({open: false})
     if(this.props.variant != 'warning' || this.props.variant != 'info'){

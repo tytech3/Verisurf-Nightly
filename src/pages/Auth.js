@@ -5,6 +5,7 @@ import Input from '@material-ui/core/Input';
 import Typography from '@material-ui/core/Typography';
 import Layout from '../Layout.js'
 import AWS from 'aws-sdk';
+import SnackBar from '../components/SnackBar.js';
 import Button from '@material-ui/core/Button';
 
 
@@ -63,10 +64,17 @@ class Auth extends Component {
         this.accessKey = ''
         this.secretKey = ''
         this.pass = null
+        this.errorMessage = 'Error logging in. Please check credentials and try again.'
+        this.variant = 'error'
 
         this.state={
             loginResult: false,
+            openSnack: false,
         }
+    }
+
+    closeSnack = () => {
+        this.setState({openSnack: false})
     }
     
     checkCreds = () => {
@@ -82,7 +90,7 @@ class Auth extends Component {
       };
       var that = this;
       s3.getObject(params, function(err, data){
-          if(err) {console.log(err, err.stack);}
+          if(err) {this.setState({openSnack: true})}
           else {
               that.setState({loginResult: true})
           }
@@ -185,6 +193,7 @@ class Auth extends Component {
                      }} />
             </form>
             <Button variant="contained" style={{marginTop: '1rem'}} onClick={this.checkCreds}>Login</Button>
+            { this.state.openSnack && <SnackBar result={this.errorMessage} variant={this.variant} clear={this.closeSnack} close={this.clsoeSnack}/> }
             </div>
         )
     }
