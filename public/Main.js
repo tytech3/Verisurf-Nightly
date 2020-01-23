@@ -64,7 +64,7 @@ ipcMain.on("getInstallPath", (event, arg) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow()
- autoUpdater.checkForUpdates();
+ autoUpdater.checkForUpdatesAndNotify();
 })
 
 // Quit when all windows are closed.
@@ -81,12 +81,13 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
-    autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdatesAndNotify();
     }
     
   }
 )
 
+/*
 autoUpdater.autoInstallOnAppQuit = true;
 
 autoUpdater.on('update-downloaded', () => {
@@ -108,7 +109,7 @@ autoUpdater.on('error', (error) => {
     message: x
   })
 })
-
+*/
 
 
 
