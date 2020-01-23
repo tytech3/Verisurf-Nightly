@@ -50,8 +50,8 @@ function createWindow () {
 
 
 regedit.setExternalVBSLocation('resources/regedit/vbs');
-regedit.list('HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
-    installPath = result['HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
+regedit.list('HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
+    installPath = result['HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
 })
 
 
