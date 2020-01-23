@@ -93,7 +93,7 @@ class Settings extends Component {
                         Version: {config.version}
                     </Typography>
                     <Typography>
-                        Install Path: {this.state.installPath}
+                        Verisurf Install Path: {this.state.installPath}
                     </Typography>
                 </div>
             </div>
