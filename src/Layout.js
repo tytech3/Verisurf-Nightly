@@ -73,8 +73,12 @@ class Layout extends Component {
                 if(that.latestBuild != localStorage.getItem('recentBuild')){
                     that.setState({noNewNightly: false})
                 }
+                that.props.history.push('/home')
+                that.setState({})
             }
         })
+
+        
     }
 
 

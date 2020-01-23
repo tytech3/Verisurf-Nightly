@@ -6,9 +6,9 @@ import config from '../../package.json';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+const {ipcRenderer} = window.require('electron');
 
 const styles = theme => ({
     formControl: {
@@ -21,16 +21,14 @@ const styles = theme => ({
     },
   });
   
-
-
-
 class Settings extends Component {
 
     constructor(props){
         super(props);
 
         this.state={
-            amt: 20
+            amt: 20,
+            installPath: '',
         }   
     }
 
@@ -42,13 +40,16 @@ class Settings extends Component {
             this.setState({amt: maximum});
         }
         catch(e){
-            console.log('there is no local storage.');
+            this.setState({amt: 20})
         }
+
+        ipcRenderer.send('getInstallPath');
+        ipcRenderer.on('getInstallPath', (event, arg) => {
+            this.setState({installPath: arg})
+        })
     }
-//test
 
     handleChange = (event) => {
-
         localStorage.setItem('maxNightly', event.target.value);
         this.setState({amt: event.target.value})
     }
@@ -89,7 +90,10 @@ class Settings extends Component {
                 </div>
                 <div style={{marginTop: 'auto'}}>
                     <Typography>
-                        version: {config.version}
+                        Version: {config.version}
+                    </Typography>
+                    <Typography>
+                        Install Path: {this.state.installPath}
                     </Typography>
                 </div>
             </div>

@@ -28,11 +28,15 @@ function createWindow () {
 
   // and load the index.html of the app.
   //switch to this when you need to build.
+
+  //prod:
   win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
-  //for prod do this:
+  win.setMenu(null);
+
+  //for dev do this:
   //win.loadURL(`http://localhost:3000`);
   //win.webContents.openDevTools();
-  win.setMenu(null);
+
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -46,12 +50,14 @@ function createWindow () {
 
 
 regedit.setExternalVBSLocation('resources/regedit/vbs');
-   regedit.list('HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
-      installPath = result['HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
-    })
+regedit.list('HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
+    installPath = result['HKCU\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
+})
 
 
-
+ipcMain.on("getInstallPath", (event, arg) => {
+  event.reply("getInstallPath", installPath);
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -116,7 +122,6 @@ ipcMain.on("currentVersion", (event, arg) => {
 
 
 ipcMain.on("updateReg", (event, arg) => {
-  console.log("Updating reg with key: " + arg);
   values = {
     'HKLM\\SOFTWARE\\Verisurf Software, Inc.\\Verisurf 2020': {
       'Version':{
@@ -182,8 +187,11 @@ ipcMain.on('downloadDir', (event, arg) => {
   });
 
   downloader.on('error', function(err) {
+    var x = ("Error installing files:\n\n " + err)
+    dialog.showMessageBox({
+      message: x
+    })
     percentage = -1;
-    console.log('unable to download: ', + err)
   })
 
 
