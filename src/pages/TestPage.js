@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './TestPage.css';
 import VerisurfCard from '../components/verisurfCard.js';
+import VersionMenu from '../components/VersionMenu.js';
 import AWS from 'aws-sdk';
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from '@material-ui/icons/Search';
@@ -24,6 +25,7 @@ const styles = theme => ({
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
+      textAlign: 'center'
     },
     search: {
       position: 'relative',
@@ -100,7 +102,6 @@ class TestPage extends Component {
 
         ipcRenderer.send("currentVersion");
         ipcRenderer.on("currentVersion", (event, arg) => {
-          console.log("Version Recv'd:  " + arg);
           this.setState({currentVersion: arg})
         }) 
 
@@ -155,8 +156,9 @@ class TestPage extends Component {
           <div className={classes.root}>
             <AppBar position="fixed" style={{backgroundColor: '#1A262B'}}>
               <Toolbar>
+                <VersionMenu />
                 <Typography className={classes.title} variant="h6" noWrap>
-                    Current Build: Verisurf 2020 ({this.state.currentVersion})
+                    Current Build: {this.state.currentVersion}
                 </Typography>
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>

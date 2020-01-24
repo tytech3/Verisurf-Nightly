@@ -123,8 +123,7 @@ class Layout extends Component {
                                     <h1>Settings</h1>
                                 </div>
                             </NavLink>
-
-                    </div>
+                        </div>
                     </Fade>
                 </div>
 

@@ -1,6 +1,6 @@
 {
   "name": "verisurf-nightly",
-  "version": "1.0.18",
+  "version": "1.0.21",
   "main": "public/Main.js",
   "repository": {
     "type": "git",
@@ -60,5 +60,4 @@
     "regedit": "^3.0.3",
     "typescript": "^3.7.5"
   }
-  
 }

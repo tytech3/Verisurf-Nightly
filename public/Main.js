@@ -87,13 +87,20 @@ app.on('activate', () => {
   }
 )
 
+autoUpdater.on('error', (err) => {
+  
+  var x = "An error occurred while updating\n\n Error: " + err
+  dialog.showMessageBox({
+    message: x
+  })
+})
+
+
 /*
 autoUpdater.autoInstallOnAppQuit = true;
 
 autoUpdater.on('update-downloaded', () => {
-  dialog.showMessageBox({
-    message: 'An update was downloaded. It will be automatically installed when you close the application.'
-  })
+
 })
 
 autoUpdater.on('update-available', () => {
