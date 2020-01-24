@@ -25,15 +25,11 @@ function createWindow () {
     webPreferences: { nodeIntegration: true }
   })
 
-
-  // and load the index.html of the app.
-  //switch to this when you need to build.
-
   //prod:
   win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   win.setMenu(null);
 
-  //for dev do this:
+  //dev:
   //win.loadURL(`http://localhost:3000`);
   //win.webContents.openDevTools();
 
@@ -87,14 +83,6 @@ app.on('activate', () => {
   }
 )
 
-autoUpdater.on('error', (err) => {
-  
-  var x = "An error occurred while updating\n\n Error: " + err
-  dialog.showMessageBox({
-    message: x
-  })
-})
-
 
 /*
 autoUpdater.autoInstallOnAppQuit = true;
@@ -108,15 +96,15 @@ autoUpdater.on('update-available', () => {
 })
 
 
-
+*/
 
 autoUpdater.on('error', (error) => {
-  var x = ("Please send the following error to Tyler: \n\n" + error.toString());
+  var x = ("The updater encountered an error: \n\n" + error.toString());
   dialog.showMessageBox({
     message: x
   })
 })
-*/
+
 
 
 
@@ -141,10 +129,10 @@ ipcMain.on("updateReg", (event, arg) => {
 
   regedit.putValue(values, function(err){
     if(err){
-      console.log('error putting reg value.')
+      
     }
     else{
-      console.log("success putting reg value.");
+
       event.reply("updateReg", "success")
     }
   })
