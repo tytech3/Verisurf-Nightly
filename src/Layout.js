@@ -70,7 +70,7 @@ class Layout extends Component {
                 that.graphDataPassing = [inner['Q1']['passing'], inner['Q2']['passing'], inner['Q3']['passing'], inner['Q4']['passing']]
                 that.graphDataFailing = [inner['Q1']['failing'], inner['Q2']['failing'], inner['Q3']['failing'], inner['Q4']['failing']]
 
-                if(that.latestBuild != localStorage.getItem('recentBuild')){
+                if(that.latestBuild !== localStorage.getItem('recentBuild')){
                     that.setState({noNewNightly: false})
                 }
                 that.props.history.push('/home')

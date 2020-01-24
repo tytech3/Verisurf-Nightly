@@ -92,7 +92,7 @@ export default class CustomizedSnackbars extends React.Component {
     }
     this.props.close();
     this.setState({open: false})
-    if(this.props.variant != 'warning' || this.props.variant != 'info'){
+    if(this.props.variant !== 'warning' || this.props.variant !== 'info'){
       this.props.clear();
     }
   };

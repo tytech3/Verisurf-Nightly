@@ -24,9 +24,6 @@ var useStyles = theme => ({
     cssOutlinedInput: {
         borderColor: 'white'
     },
-    cssFocused: {
-        borderColor: 'white'
-    },
     notchedOutline: {
         borderColor: 'white'
     },

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Auth from './pages/Auth.js';
 import * as serviceWorker from './serviceWorker';
-import { Route, Switch, HashRouter, PrivateRoute} from 'react-router-dom'
+import { Route, Switch, HashRouter } from 'react-router-dom'
 import 'typeface-roboto';
 import Layout from './Layout.js';
 

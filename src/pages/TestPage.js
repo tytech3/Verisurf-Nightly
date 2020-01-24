@@ -69,7 +69,6 @@ AWS.config.update({
   secretAccessKey: localStorage.getItem('s3SecretKey')
 })
 const {ipcRenderer} = window.require('electron');
-var isMounted = false;
 
 class TestPage extends Component {
     
@@ -105,9 +104,6 @@ class TestPage extends Component {
           this.setState({currentVersion: arg})
         }) 
 
-
-        console.log("mounted testpage.");
-        isMounted = true;
         
         var s3 = new AWS.S3();
         var params ={
@@ -129,8 +125,7 @@ class TestPage extends Component {
                     }
                     var testResult = false;
                     for(var atr in json[item]){
-                      var x = json[item]
-                        if(x['fileopen'] == 0 || x['analysis'] == 0 || x['database'] == 0){
+                        if(atr['fileopen'] === 0 || atr['analysis'] === 0 || atr['database'] === 0){
                           testResult = true;
                           break;
                         }
@@ -145,11 +140,6 @@ class TestPage extends Component {
           }
         }) 
       }
-
-
-  componentWillUnmount(){
-    isMounted = false;
-  }
 
   searched = (event) => {
     var result = this.state.prevArray.filter(card => card.props.children.props.name.startsWith(event.target.value));

@@ -34,7 +34,7 @@ class Installer extends Component {
 
       console.log("Installation was clicked. \nInfo:: \nIsDownloading: " + this.isDownloading + "\nQueue: " + this.downloadQueue);
 
-        if(this.isDownloading == true){
+        if(this.isDownloading === true){
             console.log("attempting to open the snack....");
             this.resultMessage = ('Error: You are already installing something.')
             this.variant = 'warning'

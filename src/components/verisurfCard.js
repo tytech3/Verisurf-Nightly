@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, CardActions, 
-         Collapse, IconButton, Button, TableCell, } from '@material-ui/core';
+         Collapse, IconButton, Button } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -40,7 +40,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
             color: 'green',
             marginLeft: 'auto',
             padding: '12px',
-            display: 'relative',
             flex: (0,0,'auto'),
             display: 'inline-flex',
             position: 'relative',
@@ -95,7 +94,7 @@ function VerisurfCard(props) {
       //this is how you tell if the build is failed or not.
       //the icon would be secondary color if failed. 
       //so we can open dialog to ensure user wants to download the fail file.
-      if(props.result == true){
+      if(props.result === true){
         setOpen(true);
       }
       else{

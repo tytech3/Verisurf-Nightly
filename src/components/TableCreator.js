@@ -21,21 +21,21 @@ const useStyles = makeStyles(theme => ({
 export default function TableCreator(props) {
 
     const classes = useStyles()
-    var props = props.props.props
+    var info = props.props.props
     var listArray= [];
     var iconArray = [<FolderOpenIcon />, <AssessmentIcon />, <StorageIcon />]
 
     let i = 0;
-    for(var item in props){
+    for(var item in info){
 
 
         
-        if(i == 3){
+        if(i === 3){
             break;
         }
 
         var resultIcon;
-        if(props[item] == 1){
+        if(info[item] === 1){
             resultIcon = <CheckCircleIcon style={{color: 'green'}} />
         }
         else{
@@ -52,10 +52,13 @@ export default function TableCreator(props) {
             case "database":
                 item = "Database Validation"
                 break;
+            default:
+                item="error parsing item"
+                break;
         }
 
         listArray.push(
-            <ListItem>
+            <ListItem key={item} >
                 <ListItemAvatar>
                     <Avatar>
                         {iconArray[i]}
@@ -75,7 +78,7 @@ export default function TableCreator(props) {
 
 
 //test
-    var simpleTime = props['timeelapsed'].substring(0, props['timeelapsed'].indexOf('.'));
+    var simpleTime = info['timeelapsed'].substring(0, info['timeelapsed'].indexOf('.'));
     var timeelapsed = "Test Time: " + simpleTime
 
     return (
@@ -97,7 +100,7 @@ export default function TableCreator(props) {
                                 <QueryBuilderIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={props['timestamp']} />
+                        <ListItemText primary={info['timestamp']} />
                     </ListItem>
                 </List>
             </div>

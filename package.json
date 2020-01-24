@@ -33,7 +33,7 @@
     "eject": "react-scripts eject",
     "electron-start": "electron .",
     "preelectron-pack": "npm run build",
-    "electron-pack": "electron-builder --win -p always -c.extraMetadata.main=build/Main.js",
+    "electron-pack": "electron-builder --win -p always -c.extraMetadata.main=build/Main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
