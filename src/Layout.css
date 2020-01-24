@@ -1,7 +1,7 @@
 .sideBar{
     z-index: 3;
     position: fixed;
-    width: 180px;
+    width: 10rem;
     height: 100%;
     text-align: center;
     background-color: #1A262B;

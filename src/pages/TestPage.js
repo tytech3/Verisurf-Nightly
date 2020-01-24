@@ -166,7 +166,7 @@ class TestPage extends Component {
             <AppBar position="fixed" style={{backgroundColor: '#1A262B'}}>
               <Toolbar>
                 <Typography className={classes.title} variant="h6" noWrap>
-                    Current Build: {this.state.currentVersion}
+                    Current Build: Verisurf 2020 ({this.state.currentVersion})
                 </Typography>
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>

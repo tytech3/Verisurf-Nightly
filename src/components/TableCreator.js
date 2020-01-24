@@ -27,6 +27,8 @@ export default function TableCreator(props) {
 
     let i = 0;
     for(var item in props){
+
+
         
         if(i == 3){
             break;
@@ -38,6 +40,18 @@ export default function TableCreator(props) {
         }
         else{
             resultIcon = <CancelIcon style={{color: 'red'}} />
+        }
+
+        switch(item){
+            case 'fileopen':
+                item = "File - Open"
+                break
+            case 'analysis':
+                item = "Analysis Summary"
+                break
+            case "database":
+                item = "Database Validation"
+                break;
         }
 
         listArray.push(
@@ -61,6 +75,8 @@ export default function TableCreator(props) {
 
 
 //test
+    var simpleTime = props['timeelapsed'].substring(0, props['timeelapsed'].indexOf('.'));
+    var timeelapsed = "Test Time: " + simpleTime
 
     return (
         <Grid item xs={12} md={6} className={classes.table}>
@@ -73,7 +89,7 @@ export default function TableCreator(props) {
                                 <TimerIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={props['timeelapsed']} />
+                        <ListItemText primary={timeelapsed} />
                     </ListItem>
                     <ListItem>
                         <ListItemAvatar>

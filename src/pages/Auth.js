@@ -134,7 +134,7 @@ class Auth extends Component {
                 }}>
                 <Input 
                     style={{width: '25vh', color: 'white', textAlign: 'center',}} 
-                    placeholder="S3 Access Key" 
+                    placeholder="User ID" 
                     inputProps={{'aria-label': 'description'}}
                     underlineFocusStyle={{borderColor: 'white'}}
                     classes={{underline: classes.underline}}
@@ -168,7 +168,7 @@ class Auth extends Component {
 
               <Input 
                   style={{width: '25vh', color: 'white', textAlign: 'center',}} 
-                  placeholder="S3 Secret Key" 
+                  placeholder="Passcode" 
                   inputProps={{'aria-label': 'description'}}
                   underlineFocusStyle={{borderColor: 'white'}}
                   classes={{underline: classes.underline}}
