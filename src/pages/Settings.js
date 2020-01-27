@@ -45,6 +45,7 @@ class Settings extends Component {
 
         ipcRenderer.send('getInstallPath');
         ipcRenderer.on('getInstallPath', (event, arg) => {
+            arg = arg === null ? "Verisurf not installed" : arg
             this.setState({installPath: arg})
         })
     }
