@@ -11,6 +11,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    margin-top: 2.5rem;
   }
 
   .sideBar h1{
@@ -24,9 +25,8 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
-  
 
   .navOption {
       flex: 1;
@@ -37,7 +37,7 @@
       margin-top: 5%;
       width: auto;
       height: 150px;
-      margin-bottom: 10%;
+      margin-bottom: 5%;
       justify-content: center;
       background-color: none;
   }
@@ -55,12 +55,11 @@
     position: relative;
     min-height: 100%;
     width: auto;
-    margin-left: 180px;
+    margin-left: 160px;
     text-align: center;
     color: black;
     display: flex;
     overflow: hidden;
     z-index: 1;
-    
   }
   

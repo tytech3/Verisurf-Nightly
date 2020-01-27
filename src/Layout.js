@@ -12,14 +12,74 @@ import Settings from './pages/Settings.js';
 import Auth from './pages/Auth.js';
 import Fade from 'react-reveal/Fade';
 import AWS from 'aws-sdk';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { fade, withStyles } from '@material-ui/core/styles';
+import VersionMenu from './components/VersionMenu';
 
-
+const styles = theme => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
+      },
+      textAlign: 'center',
+      fontSize: '1rem'
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+      },
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+      },
+    },
+    searchIcon: {
+      width: theme.spacing(7),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 7),
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: 120,
+        '&:focus': {
+          width: 200,
+        },
+      },
+    },
+})
 
 AWS.config.update({
     accessKeyId: localStorage.getItem('s3AccessKey'),
     secretAccessKey: localStorage.getItem('s3SecretKey')
 })
-
+const {ipcRenderer} = window.require('electron');
 class Layout extends Component {
 
     constructor(){
@@ -30,11 +90,11 @@ class Layout extends Component {
 
         this.graphDataPassing = [0, 0, 0, 0]
         this.graphDataFailing = [0, 0, 0, 0]
-
         this.state ={
             version: '',
             noNewNightly: true,
-            authorized: true
+            authorized: true,
+            currentVersion: '',
         }
     }
 
@@ -48,6 +108,13 @@ class Layout extends Component {
     }
 
     componentDidMount = () => {
+
+
+        ipcRenderer.send("currentVersion");
+        ipcRenderer.on("currentVersion", (event, arg) => {
+            arg = arg === null ? 'Verisurf Not Installed' : arg
+          this.setState({currentVersion: arg})
+        }) 
 
         
         //get stats
@@ -81,19 +148,54 @@ class Layout extends Component {
         
     }
 
+    searched = (event) => {
+
+        if(this.props.history.location.pathname !== '/test'){
+            this.props.history.push('/test')
+        }
+        else if(this.props.history.location.pathname === '/test'){
+            this.searchBuild.searchBuild(event.target.value)
+        }
+    }
+
 
     render() {
+        const {classes} = this.props;
         if(!this.state.authorized){
             return <Auth />
         }
         return (
             <div>
-                <Installer onRef={ref => (this.child = ref)}  />
+                
+                <div className={classes.root}>
+                    <AppBar position="fixed" style={{backgroundColor: '#1A262B'}}>
+                    <Toolbar>
+                        <VersionMenu />
+                        <Typography className={classes.title} variant="subtitle2" noWrap >
+                            Your Installed Build: {this.state.currentVersion}
+                        </Typography>
+                        <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search Builds…"
+                            onChange={this.searched}
+                            classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                        </div>
+                    </Toolbar>
+                    </AppBar>
+                </div>
                 <div className={'sideBar'}>
                 <Fade top cascade>
                     <div className={'navSelect'}>
                         <NavLink to={'/home'}  activeClassName="navOptionActive" >
-                            <div className={'navOption'} >
+                            <div className={'navOption'}>
  
                                 <HomeIcon 
                                 style={{fontSize: 75, textAlign: 'center', alignSelf: 'center', 
@@ -129,6 +231,7 @@ class Layout extends Component {
 
                 {/*Main content area. This is where the content from the sidebar options will be displayed. */}
                 <div className={'mainContent'} >
+                <Installer onRef={ref => (this.child = ref)}  />
                     <Switch>
                         <Route exact path="/home">
                             <HomePage 
@@ -140,7 +243,7 @@ class Layout extends Component {
                             graphDataFailing={this.graphDataFailing} />
                         </Route>
                         <Route exact path="/test">
-                            <TestPage  install={this.install} json={this.jsonresp} clearBadge={this.clearNewNightly} />
+                            <TestPage  install={this.install} json={this.jsonresp} clearBadge={this.clearNewNightly} onRef={ref => (this.searchBuild = ref)} disableInstall={this.state.currentVersion === null} />
                         </Route>
                         <Route exact path="/settings">
                             <Settings />
@@ -152,4 +255,4 @@ class Layout extends Component {
     }
 }
 
-export default Layout;
+export default withStyles(styles)(Layout);

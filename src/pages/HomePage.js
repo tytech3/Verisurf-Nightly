@@ -34,7 +34,8 @@ const styles = theme => ({
       paperHolder: {
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'space-around'
+          justifyContent: 'space-around',
+          marginTop: '8rem'
       },
 
       headerBar:{
@@ -72,12 +73,6 @@ class HomePage extends React.Component {
         const{classes} = this.props;
         return (
             <div className={'mainOverlay'}>
-            <div className={classes.headerBar}>
-                <Typography variant="h5" style={{color: 'white', textAlign: 'center', marginTop: '.5rem'}}>
-                    Welcome to Verisurf Nightly
-                </Typography>
-            </div>
-
             <Fade>
                 <div className={classes.paperHolder}>
                 <Paper elevation={3} className={classes.paper} style={{backgroundImage: 'linear-gradient(75deg, #20DBDB, #5685E6)'}}>
