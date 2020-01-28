@@ -8,7 +8,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-const {ipcRenderer} = window.require('electron');
 
 const styles = theme => ({
     formControl: {
@@ -28,10 +27,8 @@ class Settings extends Component {
 
         this.state={
             amt: 20,
-            installPath: '',
         }   
     }
-
 
     componentWillMount(){
         try{
@@ -43,11 +40,6 @@ class Settings extends Component {
             this.setState({amt: 20})
         }
 
-        ipcRenderer.send('getInstallPath');
-        ipcRenderer.on('getInstallPath', (event, arg) => {
-            arg = arg === null ? "Verisurf not installed" : arg
-            this.setState({installPath: arg})
-        })
     }
 
     handleChange = (event) => {
@@ -89,12 +81,12 @@ class Settings extends Component {
                             </Select>
                     </FormControl>
                 </div>
-                <div style={{marginTop: 'auto'}}>
-                    <Typography>
+                <div style={{marginTop: 'auto', backgroundColor: 'white', width: '100%', alignSelf: 'center'}}>
+                    <Typography variant="body2">
                         Version: {config.version}
                     </Typography>
-                    <Typography>
-                        Verisurf Install Path: {this.state.installPath}
+                    <Typography variant="caption">
+                        Verisurf Software {'\u00A9'} 2020
                     </Typography>
                 </div>
             </div>

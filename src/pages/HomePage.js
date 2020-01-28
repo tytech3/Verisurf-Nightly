@@ -35,7 +35,7 @@ const styles = theme => ({
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-around',
-          marginTop: '8rem'
+          marginTop: '15%',
       },
 
       headerBar:{
@@ -48,11 +48,7 @@ const styles = theme => ({
           borderRadius: '25px',
           alignSelf:'center',
           marginBottom: '4rem'
-          
       }
-
-
-
 });
 
 class HomePage extends React.Component {

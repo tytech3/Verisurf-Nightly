@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '0rem',
     },
     secondaryText:{
-        color: 'gray'
+        color: '#f2f2f2'
     }
 }))
 

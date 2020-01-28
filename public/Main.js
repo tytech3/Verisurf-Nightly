@@ -226,7 +226,7 @@ ipcMain.on('downloadDir', (event, arg) => {
     console.log("done downloading");
   });
   
-  
+
   ipcMain.on('downloaderPercentage', (event, arg) => {
     event.reply('downloadPercentage', percentage);
     console.log("Main % val: " + percentage);
