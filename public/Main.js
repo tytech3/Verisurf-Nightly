@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path');
 const regedit = require("regedit");
 const { autoUpdater } = require('electron-updater');
-const { dialog } = require('electron');
+const { dialog, Notification } = require('electron');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -101,19 +101,16 @@ autoUpdater.on('error', (err) => {
 })
 
 
-/*
-autoUpdater.autoInstallOnAppQuit = true;
 
-autoUpdater.on('update-downloaded', () => {
+autoUpdater.on('update-available', (info) => {
+  var options = {
+    title: "Nightly Update",
+    body: "The new version of Nightly will now be downloaded."
+  }
+  let myNoti = new Notification(options)
+  myNoti.show();
 
 })
-
-autoUpdater.on('update-available', () => {
-  autoUpdater.downloadUpdate();
-})
-
-
-
 
 autoUpdater.on('error', (error) => {
   var x = ("Please send the following error to Tyler: \n\n" + error.toString());
@@ -121,7 +118,7 @@ autoUpdater.on('error', (error) => {
     message: x
   })
 })
-*/
+
 
 
 

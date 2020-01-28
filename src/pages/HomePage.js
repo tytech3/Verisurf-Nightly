@@ -60,11 +60,6 @@ class HomePage extends React.Component {
         }
     }
 
-    componentDidMount = () => {
-           
-    }
-
-
     render() {
         const{classes} = this.props;
         return (
@@ -95,9 +90,6 @@ class HomePage extends React.Component {
                        Latest Build
                     </Typography>
                 </Paper>
-
-
-                
                 </div>
                 </Fade>
                 <div style={{marginTop: 'auto', marginBottom: '2rem', marignLeft: '5%', marignRight: '5%', backgroundColor: '#FFFFFF', borderRadius: '3%'}}>
