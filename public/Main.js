@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, remote } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path');
 const regedit = require("regedit");
 const { autoUpdater } = require('electron-updater');
@@ -50,9 +50,14 @@ function createWindow () {
 
 
 regedit.setExternalVBSLocation('resources/regedit/vbs');
+try{
 regedit.list('HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
     installPath = result['HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
 })
+}
+catch(e){
+  installPath = null;
+}
 
 
 ipcMain.on("getInstallPath", (event, arg) => {
@@ -121,10 +126,15 @@ autoUpdater.on('error', (error) => {
 
 
 ipcMain.on("currentVersion", (event, arg) => {
+  try{
     regedit.list('HKLM\\SOFTWARE\\Verisurf Software, Inc.\\Verisurf 2020', function(err, result){
     let currentVersion = result['HKLM\\SOFTWARE\\Verisurf Software, Inc.\\Verisurf 2020']['values']['Version']['value'];
     event.reply('currentVersion', currentVersion);
-  });
+    });
+  }
+  catch(e){
+    event.reply('currentVersion', null);
+  }
 })
 
 
@@ -160,7 +170,7 @@ ipcMain.on("updateReg", (event, arg) => {
 //  ipcRenderer.send('downloadDir');
 
 ipcMain.on('downloadDir', (event, arg) => {
-
+  
   var version = arg.version;
   var accessKey = arg.s3AccessKey
   var secretKey = arg.s3SecretKey
@@ -194,6 +204,7 @@ ipcMain.on('downloadDir', (event, arg) => {
     }
   });
 
+
   downloader.on('error', function(err) {
     var x = ("Error installing files:\n\n " + err)
     dialog.showMessageBox({
@@ -206,7 +217,6 @@ ipcMain.on('downloadDir', (event, arg) => {
   var percentage = 0; 
 
   downloader.on('progress', function() {
-    //console.log("progress", downloader.progressMd5Amount, downloader.progressMd5Total, downloader.progressAmount, downloader.progressTotal);
     percentage = parseInt(100 * (downloader.progressMd5Amount/downloader.progressMd5Total));
   });
 
@@ -215,6 +225,7 @@ ipcMain.on('downloadDir', (event, arg) => {
     percentage = 100;
     console.log("done downloading");
   });
+  
   
   ipcMain.on('downloaderPercentage', (event, arg) => {
     event.reply('downloadPercentage', percentage);

@@ -144,6 +144,7 @@ function VerisurfCard(props) {
         </CardContent>
         <CardContent>
             <Button
+                disabled={props.disable}
                 onClick={callParentMethod}
                 variant="contained"
                 color="secondary"
