@@ -3,20 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    width: '12rem',
-    marginLeft: '0rem',
+    width: '10rem',
+    marginLeft: '10rem',
     },
     secondaryText:{
-        color: 'gray'
+        color: 'red'
     }
 }))
 
@@ -54,9 +52,6 @@ export default function SimpleListMenu() {
           onClick={handleClickListItem}
         >
           <ListItemText primary="Version" secondary={options[selectedIndex]} classes={{secondary: classes.secondaryText}} />
-          <ListItemAvatar>
-            <KeyboardArrowDownIcon />
-          </ListItemAvatar>
         </ListItem>
       </List>
       <Menu

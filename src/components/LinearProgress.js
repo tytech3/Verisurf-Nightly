@@ -7,12 +7,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     position: 'fixed',
-    zIndex: 5,
+    zIndex: 2,
     '& > * + *': {
       marginTop: theme.spacing(2),
     },
-    color: 'gray',
-    marginTop: '5.5%',
+    color: 'gray'
   },
 }));
 
@@ -26,7 +25,7 @@ export default function LinearDeterminate(props) {
   return (
     <div className={classes.root}>
       <Zoom left>
-        <LinearProgress style={{height: 15}} variant="determinate" value={props.completed} color="secondary" />
+        <LinearProgress style={{height: 10}} variant="determinate" value={props.completed} color="secondary" />
       </Zoom>
     </div>
   );
