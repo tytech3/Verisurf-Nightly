@@ -33,7 +33,8 @@
     "eject": "react-scripts eject",
     "electron-start": "electron .",
     "preelectron-pack": "npm run build",
-    "electron-pack": "electron-builder --win -p always -c.extraMetadata.main=build/Main.js"
+    "electron-pack-pub": "electron-builder --win -p always -c.extraMetadata.main=build/Main.js",
+    "electron-pack-loc": "electron-builder --win -p never -c.extraMetadata.main=build/Main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,5 +60,34 @@
     "react-reveal": "^1.2.2",
     "regedit": "^3.0.3",
     "typescript": "^3.7.5"
-  }
+  },
+  "build": {
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "tytech3",
+        "repo": "reactron"
+      }
+    ],
+    "appId": "com.verisurfsoftware.nightly",
+    "files": [
+      "build/",
+      "node_modules/**/*"
+    ],
+    "win":{
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extraResources": [
+      {
+        "from": "node_modules/regedit/vbs",
+        "to": "regedit/vbs",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
+  } 
 }
