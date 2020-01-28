@@ -97,8 +97,7 @@ class Auth extends Component {
         if(this.state.loginResult){
             localStorage.setItem('auth', true);
             localStorage.setItem('s3AccessKey', this.accessKey)
-            localStorage.setItem('s3SecretKey', this.secretKey);
-            // TODO : loading auth token in to nedb. check it in index.js to persist an authenticated user.
+            localStorage.setItem('s3SecretKey', this.secretKey)
             return <Layout />
         }
 
