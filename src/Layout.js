@@ -19,6 +19,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { fade, withStyles } from '@material-ui/core/styles';
 import VersionMenu from './components/VersionMenu';
+import HttpRequest from './utilities/HttpRequest';
 
 const styles = theme => ({
     root: {
@@ -80,6 +81,10 @@ AWS.config.update({
     secretAccessKey: localStorage.getItem('s3SecretKey')
 })
 const {ipcRenderer} = window.require('electron');
+
+//This component is the parent of all views after authentication.
+//It handles setting up data in the homepage, and then setting 
+//the active page to home.
 class Layout extends Component {
 
     constructor(){
@@ -107,8 +112,30 @@ class Layout extends Component {
         this.setState({noNewNightly: true})
     }
 
+    setUpData = (data) => {
+        var json = JSON.parse(data)
+        var inner = json['2020'];
+        this.week_nightly = inner["weekly"]
+        this.totalNightly = inner["total"]
+        this.latestBuild = inner["latest"]
+
+        this.graphDataPassing = [inner['Q1']['passing'], inner['Q2']['passing'], inner['Q3']['passing'], inner['Q4']['passing']]
+        this.graphDataFailing = [inner['Q1']['failing'], inner['Q2']['failing'], inner['Q3']['failing'], inner['Q4']['failing']]
+
+        if(this.latestBuild !== localStorage.getItem('recentBuild')){
+            this.setState({noNewNightly: false})
+        }
+        this.props.history.push('/home')
+        this.setState({})
+    }
+
     componentDidMount = () => {
 
+        HttpRequest('/stats/2020').then(result => {
+            this.setUpData(result)
+        }, err => console.log(err))
+
+        
 
         ipcRenderer.send("currentVersion");
         ipcRenderer.on("currentVersion", (event, arg) => {
@@ -117,7 +144,8 @@ class Layout extends Component {
         }) 
 
         
-        //get stats
+        //get statss
+        /*
         var s3 = new AWS.S3();
         var params ={
             Bucket: 'vs2020',
@@ -125,7 +153,9 @@ class Layout extends Component {
         };
         var that = this;
         s3.getObject(params, function(err, data){
-            if(err) {that.setState({authorized: false})}
+            if(err) {
+                that.setState({authorized: false})
+            }
             else {
                 var response = new TextDecoder('utf-8').decode(data.Body)
                 var json = JSON.parse(response)
@@ -144,6 +174,7 @@ class Layout extends Component {
                 that.setState({})
             }
         })
+        */
 
         
     }
@@ -208,7 +239,7 @@ class Layout extends Component {
 
                          <NavLink to={'/test'}  activeClassName="navOptionActive">
                             <div className={'navOption'}>
-                            <Badge variant="dot" invisible={this.state.noNewNightly} color="secondary" style={{position: 'absolute', marginLeft: '10rem', marginTop: '2.2rem'}}>
+                            <Badge variant="dot" invisible={this.state.noNewNightly} color="secondary" style={{position: 'absolute', marginLeft: '8.5rem', marginTop: '2.2rem'}}>
                             </Badge>
                                 <Brightness3Icon 
                                 style={{fontSize: 75, textAlign: 'center', alignSelf: 'center', 

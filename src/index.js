@@ -17,7 +17,6 @@ catch(e){
   authenticated = false;
 }
 
-
 if(authenticated){
       routing = (
         <HashRouter>

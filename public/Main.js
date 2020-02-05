@@ -2,7 +2,8 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path');
 const regedit = require("regedit");
 const { autoUpdater } = require('electron-updater');
-const { dialog, Notification } = require('electron');
+const { dialog, Notification, } = require('electron');
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,6 +38,7 @@ function createWindow () {
   //win.loadURL(`http://localhost:3000`);
   //win.webContents.openDevTools();
 
+  win.webContents.session.clearCache();
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -50,14 +52,18 @@ function createWindow () {
 
 
 regedit.setExternalVBSLocation('resources/regedit/vbs');
-try{
+
 regedit.list('HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020', function(err, result){
-    installPath = result['HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
+    if(err){
+      installPath = null
+    }
+    else{
+      installPath = result['HKLM\\SOFTWARE\\CNC Software, Inc.\\Mastercam 2020']['values']['Directory']['value'];
+    }
+    
 })
-}
-catch(e){
-  installPath = null;
-}
+
+
 
 
 ipcMain.on("getInstallPath", (event, arg) => {
@@ -100,8 +106,6 @@ autoUpdater.on('error', (err) => {
   })
 })
 
-
-
 autoUpdater.on('update-available', (info) => {
   var options = {
     title: "Nightly Update",
@@ -112,26 +116,16 @@ autoUpdater.on('update-available', (info) => {
 
 })
 
-autoUpdater.on('error', (error) => {
-  var x = ("Please send the following error to Tyler: \n\n" + error.toString());
-  dialog.showMessageBox({
-    message: x
-  })
-})
-
-
-
-
 ipcMain.on("currentVersion", (event, arg) => {
-  try{
     regedit.list('HKLM\\SOFTWARE\\Verisurf Software, Inc.\\Verisurf 2020', function(err, result){
+    if(err){
+      event.reply('currentVersion', null);
+    }
+    else{
     let currentVersion = result['HKLM\\SOFTWARE\\Verisurf Software, Inc.\\Verisurf 2020']['values']['Version']['value'];
     event.reply('currentVersion', currentVersion);
-    });
-  }
-  catch(e){
-    event.reply('currentVersion', null);
-  }
+    }
+  });
 })
 
 

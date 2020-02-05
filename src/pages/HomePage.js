@@ -26,7 +26,7 @@ const styles = theme => ({
       paper: {
         height: "10rem",
         width: "22rem",
-        margin: "2rem",
+        margin: "1.8rem",
         marginTop: "0rem",
         textAlign: 'center',
         alignContent: 'center',
@@ -35,7 +35,7 @@ const styles = theme => ({
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-around',
-          marginTop: '15%',
+          marginTop: '12%',
       },
 
       headerBar:{

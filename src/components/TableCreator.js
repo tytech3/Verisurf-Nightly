@@ -75,12 +75,7 @@ export default function TableCreator(props) {
 
        i +=1;
     }
-
-
-//test
-    var simpleTime = info['timeelapsed'].substring(0, info['timeelapsed'].indexOf('.'));
-    var timeelapsed = "Test Time: " + simpleTime
-
+    
     return (
         <Grid item xs={12} md={6} className={classes.table}>
             <div>
@@ -92,7 +87,7 @@ export default function TableCreator(props) {
                                 <TimerIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={timeelapsed} />
+                        <ListItemText primary={info['timeelapsed']} />
                     </ListItem>
                     <ListItem>
                         <ListItemAvatar>
