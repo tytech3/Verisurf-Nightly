@@ -98,6 +98,10 @@ app.on('activate', () => {
   }
 )
 
+ipcMain.on("checkUpdate", (event, arg) => {
+  autoUpdater.checkForUpdatesAndNotify();
+})
+
 autoUpdater.on('error', (err) => {
   
   var x = "An error occurred while updating\n\n Error: " + err
@@ -114,6 +118,15 @@ autoUpdater.on('update-available', (info) => {
   let myNoti = new Notification(options)
   myNoti.show();
 
+})
+
+autoUpdater.on('update-not-available', (info) => {
+  var options = {
+    title: "Nightly Update",
+    body: "There is no update available at this time."
+  }
+  let myNoti = new Notification(options)
+  myNoti.show();
 })
 
 ipcMain.on("currentVersion", (event, arg) => {

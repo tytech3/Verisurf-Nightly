@@ -5,6 +5,7 @@ import AWS from 'aws-sdk';
 import Grid from "@material-ui/core/Grid";
 import HttpRequest from '../utilities/HttpRequest.js';
 
+
 AWS.config.update({
   accessKeyId: localStorage.getItem('s3AccessKey'),
   secretAccessKey: localStorage.getItem('s3SecretKey')
@@ -19,6 +20,7 @@ class TestPage extends Component {
             cardArray: [],
             maxNightly: 20,
             prevArray: [],
+            skeletonArray: []
         }
     }
 
@@ -30,6 +32,19 @@ class TestPage extends Component {
       catch(e){
         console.log("no setting found.");
       }
+      var index  = 0
+      var skeleton = []
+      for(index; index < 15; index += 1){
+        skeleton.push(
+          <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
+            <VerisurfCard
+              type={'skeleton'}
+              />
+          </Grid>
+        )
+      }
+
+      this.setState({skeletonArray: skeleton})
     }
 
 
@@ -48,7 +63,8 @@ class TestPage extends Component {
         var versionKey = Object.keys(innerjson)
         localCardArray.push(
           <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
-            <VerisurfCard 
+            <VerisurfCard
+              type={'content'}
               props={innerjson[versionKey]} 
               name={versionKey} 
               onClick={this.props.install} 
@@ -59,53 +75,20 @@ class TestPage extends Component {
         index -= 1
       }
       this.setState({cardArray: localCardArray, prevArray: localCardArray})
+      localStorage.setItem("cardAmount", localCardArray.length)
     }
 
     componentDidMount = () => {
         this.props.onRef(this)
         this.props.clearBadge();
 
+
+
         HttpRequest('/nightly').then(result => {
           this.setUpData(result)
       }, err => console.log(err))
         
-      /*
-        var s3 = new AWS.S3();
-        var params ={
-            Bucket: 'vs2020',
-            Key: 'nightly/UT Results/UTR.json',
-        }
-        var that = this;
-        s3.getObject(params, function(err, data){
-            if(err) {console.log(err, err.stack);}
-            else {
-                var response = new TextDecoder('utf-8').decode(data.Body)
-                var json = JSON.parse(response)
-                var localCardArray = [];
-                var i = 0;
-                localStorage.setItem('recentBuild', Object.keys(json)[0]);
-                for(var item in json){
-                    if(i > that.state.maxNightly){
-                      break;
-                    }
-                    var testResult = false;
-                    for(var atr in json[item]){
-                        if(atr['fileopen'] === 0 || atr['analysis'] === 0 || atr['database'] === 0){
-                          testResult = true;
-                          break;
-                        }
-                  }
-                  localCardArray.push(
-                    <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
-                      <VerisurfCard props={json[item]} name={item} onClick={that.props.install} result={testResult} disable={that.props.disableInstall} />
-                    </Grid>
-                    )
-            }
-            that.setState({cardArray: localCardArray, prevArray: localCardArray})
-          }
-        }) 
-        */
-      }
+    }
 
   searchBuild = (str) => {
     var result = this.state.prevArray.filter(card => card.props.children.props.name[0].startsWith(str));
@@ -118,7 +101,7 @@ class TestPage extends Component {
             <div className={'cards'}>
               <div className={'downloadText'}><p id={'currentDownload'}>{this.state.currentDownload}</p></div>
                 <Grid container spacing={5} style={{alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}> 
-                  {this.state.cardArray}
+                  {this.state.prevArray.length === 0 ? this.state.skeletonArray : this.state.cardArray}
               </Grid>
             </div>
           </div>

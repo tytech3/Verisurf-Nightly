@@ -20,10 +20,78 @@
     width: 100%;
     margin: 2rem;
     margin-top: 0rem;
-
+    padding-bottom: 3rem;
     display: flex;
 }
 
 .optionsHeader {
     margin-top: 1rem;
 }
+
+.settingsFooter {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    margin-left: 40%;
+}
+
+
+.SegmentedPicker {
+    margin-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 10vh;
+    display: flex;
+    background-color: #DCDCDC;
+    width: 400px;
+    height: 4vh;
+    justify-content: center;
+    border-radius: 30;
+    border: 2px solid 	#DCDCDC;
+    border-radius: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .selectedItem {
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    height: 3vh;
+    padding-left: 75px;
+    padding-right: 75px;
+    align-items: center;
+    cursor: default;
+    animation-name: example;
+    animation-duration: .2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2)
+  }
+  
+  @keyframes example {
+    0% {
+      background-color: 	#DCDCDC;
+      border: 2px solid 	#DCDCDC;
+    }
+    25% {
+      background-color: lightgray;
+      border: 2px solid lightgray;
+    }
+    50% {
+      background-color: #efffef;
+      border: 2px solid #efffef;
+    }
+    100% {
+      background-color: white;
+      border: 2px solid white;
+    }
+  }
+  .pickerItem {
+    display: flex;
+    height: 8vh;
+    padding-left: 75px;
+    padding-right: 75px;
+    align-items: center;
+    cursor: pointer;
+  }

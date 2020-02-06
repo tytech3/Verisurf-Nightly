@@ -6,7 +6,6 @@ import ApexChart from '../components/ApexChart.js';
 import { withStyles } from "@material-ui/core/styles";
 import Fade from 'react-reveal/Fade';
 
-
 const styles = theme => ({
 
     root: {
@@ -56,7 +55,7 @@ class HomePage extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            cardArray: []
+            cardArray: [],
         }
     }
 
@@ -93,7 +92,7 @@ class HomePage extends React.Component {
                 </div>
                 </Fade>
                 <div style={{marginTop: 'auto', marginBottom: '2rem', marignLeft: '5%', marignRight: '5%', backgroundColor: '#FFFFFF', borderRadius: '3%'}}>
-                    <ApexChart graphDataPassing={this.props.graphDataPassing} graphDataFailing={this.props.graphDataFailing} />
+                   {this.props.hasGraphData && <ApexChart graphDataPassing={this.props.graphDataPassing} graphDataFailing={this.props.graphDataFailing} />}
                 </div>
             </div>
         );

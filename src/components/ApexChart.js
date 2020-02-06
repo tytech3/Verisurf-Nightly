@@ -43,9 +43,7 @@ export default class ApexChart extends React.Component {
         },    
       };
     }
-
   
-
     render() {
       return (    
         <div id="chart">

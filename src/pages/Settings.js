@@ -8,6 +8,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { Button } from '@material-ui/core';
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+const {ipcRenderer} = window.require('electron');
 
 const styles = theme => ({
     formControl: {
@@ -27,6 +30,7 @@ class Settings extends Component {
 
         this.state={
             amt: 20,
+            active: ["pickerItem", "pickerItem", "pickerItem"]
         }   
     }
 
@@ -47,12 +51,30 @@ class Settings extends Component {
         this.setState({amt: event.target.value})
     }
 
+    checkUpdate = () => {
+        ipcRenderer.send("checkUpdate")
+    }
+
+    test = num => {
+        var newActive = ["pickerItem", "pickerItem"];
+        newActive[num] = "selectedItem";
+        this.setState({ active: newActive });
+
+        localStorage.setItem("startPage", num)
+      };
+
+      componentDidMount= () => {
+        var newActive = ["pickerItem", "pickerItem"];
+        newActive[localStorage.getItem("startPage")] = "selectedItem";
+        this.setState({ active: newActive });
+      }
+
     render() {
         const {classes} = this.props;
         return (
-            <div className={'settingsLayout'}>
+            <div className={'settingsLayout'}>                               
                 <div className={'settingsHeader'}>
-                    <Typography variant={'h3'}>
+                    <Typography variant={'h4'}>
                         Nightly
                     </Typography>
                     <Divider variant={'fullwidth'}/>
@@ -60,7 +82,7 @@ class Settings extends Component {
                 
                 <div className={'optionsContainer'}>
                     <div className={'optionsHeader'}>
-                        <Typography variant={'overline'} style={{fontSize: '1rem'}}>
+                        <Typography variant={'subtitle'} style={{fontSize: '1rem'}}>
                             Max Nightly's Displayed
                         </Typography>
                     </div>
@@ -81,13 +103,53 @@ class Settings extends Component {
                             </Select>
                     </FormControl>
                 </div>
-                <div style={{marginTop: 'auto', backgroundColor: 'white', width: '100%', alignSelf: 'center'}}>
-                    <Typography variant="body2">
-                        Version: {config.version}
+
+
+
+                <div className={'settingsHeader'} style={{marginTop: '1rem'}}>
+                <Typography variant={'h4'}>
+                    App
+                </Typography>
+                <Divider variant={'fullwidth'}/>
+            </div>
+            
+            <div className={'optionsContainer'}>
+                <div className={'optionsHeader'}>
+                    <Typography variant={'subtitle'} style={{fontSize: '1rem'}}>
+                        Start Page
                     </Typography>
-                    <Typography variant="caption">
-                        Verisurf Software {'\u00A9'} 2020
-                    </Typography>
+                </div>
+
+                <div className="SegmentedPicker">
+                <div className={this.state.active[0]} onClick={() => this.test(0)}>
+                    <Typography>Home</Typography>
+                </div>
+                <div className={this.state.active[1]} onClick={() => this.test(1)}>
+                    <Typography>Nightly</Typography>
+                </div>
+              </div>        
+            </div>
+
+
+                <div className={'settingsFooter'}>
+                    <div className={'settingsFooterInfo'}>
+                        <Typography variant="body2">
+                            Version: {config.version}
+                        </Typography>
+                        <Typography variant="caption">
+                            Verisurf Software {'\u00A9'} 2020
+                        </Typography>
+                    </div>
+
+                <div style={{position: 'fixed', bottom: 2, right: 0}}>
+                    <Button
+                        onClick={this.checkUpdate}
+                        variant="contained"
+                        startIcon={<SystemUpdateAltIcon />}>
+                        Check For Updates
+                    </Button>
+                </div>
+
                 </div>
             </div>
         );

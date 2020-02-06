@@ -100,6 +100,7 @@ class Layout extends Component {
             noNewNightly: true,
             authorized: true,
             currentVersion: '',
+            hasGraphData: false
         }
     }
 
@@ -125,58 +126,28 @@ class Layout extends Component {
         if(this.latestBuild !== localStorage.getItem('recentBuild')){
             this.setState({noNewNightly: false})
         }
-        this.props.history.push('/home')
-        this.setState({})
+        this.setState({hasGraphData: true})           
     }
 
     componentDidMount = () => {
-
+        var startingpage = ''
+        if(localStorage.getItem('startPage')){
+            var x = localStorage.getItem('startPage')
+            startingpage =  x === '0' ? '/home' : '/test'
+        }
+        else{
+            startingpage = '/home'
+        }
+        this.props.history.push(startingpage)
         HttpRequest('/stats/2020').then(result => {
             this.setUpData(result)
         }, err => console.log(err))
-
-        
 
         ipcRenderer.send("currentVersion");
         ipcRenderer.on("currentVersion", (event, arg) => {
             arg = arg === null ? 'Verisurf Not Installed' : arg
           this.setState({currentVersion: arg})
-        }) 
-
-        
-        //get statss
-        /*
-        var s3 = new AWS.S3();
-        var params ={
-            Bucket: 'vs2020',
-            Key: 'nightly/nightly-stats/stats.json',
-        };
-        var that = this;
-        s3.getObject(params, function(err, data){
-            if(err) {
-                that.setState({authorized: false})
-            }
-            else {
-                var response = new TextDecoder('utf-8').decode(data.Body)
-                var json = JSON.parse(response)
-                var inner = json['2020'];
-                that.week_nightly = inner["weekly"]
-                that.totalNightly = inner["total"]
-                that.latestBuild = inner["latest"]
-
-                that.graphDataPassing = [inner['Q1']['passing'], inner['Q2']['passing'], inner['Q3']['passing'], inner['Q4']['passing']]
-                that.graphDataFailing = [inner['Q1']['failing'], inner['Q2']['failing'], inner['Q3']['failing'], inner['Q4']['failing']]
-
-                if(that.latestBuild !== localStorage.getItem('recentBuild')){
-                    that.setState({noNewNightly: false})
-                }
-                that.props.history.push('/home')
-                that.setState({})
-            }
-        })
-        */
-
-        
+        })        
     }
 
     searched = (event) => {
@@ -271,7 +242,8 @@ class Layout extends Component {
                             totalNightly={this.totalNightly} 
                             totalWeekly={this.week_nightly}
                             graphDataPassing={this.graphDataPassing}
-                            graphDataFailing={this.graphDataFailing} />
+                            graphDataFailing={this.graphDataFailing}
+                            hasGraphData={this.state.hasGraphData} />
                         </Route>
                         <Route exact path="/test">
                             <TestPage  install={this.install} json={this.jsonresp} clearBadge={this.clearNewNightly} onRef={ref => (this.searchBuild = ref)} disableInstall={this.state.currentVersion === null} />

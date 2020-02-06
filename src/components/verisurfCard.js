@@ -14,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Skeleton from '@material-ui/lab/Skeleton';
 
     const useStyles = makeStyles(theme => ({
         card: {
@@ -81,7 +82,6 @@ function VerisurfCard(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -110,9 +110,40 @@ function VerisurfCard(props) {
       props.onClick(props.name);
       setOpen(false)
     }
-
+    if(props.type === 'skeleton'){
+      return(
+        <React.Fragment>
+          <Card className={classes.card}>
+          <CardContent className={classes.cardHeader}>
+              <Skeleton animation="wave" width={300} height={50}/> 
+          </CardContent>
+          <CardContent>
+              <div style={{marginLeft: '38%'}}>
+                <Skeleton animaton="wave" width={250} height={100} />
+              </div>
+          </CardContent>
+          <CardActions disableSpacing>
+              <IconButton className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+              })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more">
+                  <ExpandMoreIcon />
+              </IconButton>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent className={{media: classes.tables}}>
+                  
+              </CardContent>
+          </Collapse>
+      </Card>
+    </React.Fragment>
+      )
+    } 
+    else if(props.type === 'content') {
     return (
-      <>
+      <React.Fragment>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -169,8 +200,9 @@ function VerisurfCard(props) {
             </CardContent>
         </Collapse>
     </Card>
-    </>
+    </React.Fragment>
     )
+    }
 }
 
 export default VerisurfCard
