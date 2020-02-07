@@ -65,8 +65,15 @@ class Settings extends Component {
 
       componentDidMount= () => {
         var newActive = ["pickerItem", "pickerItem"];
-        newActive[localStorage.getItem("startPage")] = "selectedItem";
-        this.setState({ active: newActive });
+        var x = localStorage.getItem("startPage")
+        if(x === '0' || x === '1'){
+            newActive[x] = "selectedItem";
+            this.setState({ active: newActive });
+        }
+        else{
+            newActive[0] = "selectedItem"
+            this.setState({active: newActive})
+        }
       }
 
     render() {

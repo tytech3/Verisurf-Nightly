@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import ApexChart from '../components/ApexChart.js';
 import { withStyles } from "@material-ui/core/styles";
 import Fade from 'react-reveal/Fade';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const styles = theme => ({
 
@@ -61,7 +62,40 @@ class HomePage extends React.Component {
 
     render() {
         const{classes} = this.props;
-        return (
+
+        if(this.props.latestBuild === 0){
+            return(
+                    <div className={'mainOverlay'}>
+                    <Fade>
+                        <div className={classes.paperHolder}>
+                        <Paper elevation={3} className={classes.paper} style={{backgroundImage: 'linear-gradient(75deg, #20DBDB, #5685E6)'}}>
+                            <div style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
+                                <Skeleton animation="wave" width={'45%'} height={'75%'} />
+                                <Skeleton animation="wave" width={'65%'} height={'30%'} />
+                           </div>
+                        </Paper>
+                        <Paper elevation={3} className={classes.paper} style={{backgroundImage: 'linear-gradient(75deg, #F5509F, #FE717A)'}}>
+                            <div style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
+                                <Skeleton animation="wave" width={'45%'} height={'75%'} />
+                                <Skeleton animation="wave" width={'65%'} height={'30%'} />
+                            </div>
+                        </Paper>
+                        <Paper elevation={3} className={classes.paper} style={{backgroundImage: 'linear-gradient(75deg, #3CE592, #3BB6B4)'}}>
+                            <div style={{height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
+                                <Skeleton animation="wave" width={'45%'} height={'75%'} />
+                                <Skeleton animation="wave" width={'65%'} height={'30%'} />
+                            </div>
+                        </Paper>
+                        </div>
+                        </Fade>
+                        <div style={{marginTop: 'auto', marginBottom: '2rem', marignLeft: '5%', marignRight: '5%', backgroundColor: '#FFFFFF', borderRadius: '3%'}}>
+                           <Skeleton animation="wave" height={'100rem'} width ={'100%'} />
+                        </div>
+                    </div>
+            )
+        }
+        else{
+            return (
             <div className={'mainOverlay'}>
             <Fade>
                 <div className={classes.paperHolder}>
@@ -96,6 +130,7 @@ class HomePage extends React.Component {
                 </div>
             </div>
         );
+    }
 
     }
 }
