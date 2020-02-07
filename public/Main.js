@@ -31,12 +31,12 @@ function createWindow () {
   //switch to this when you need to build.
 
   //prod:
-  win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
-  win.setMenu(null);
+  //win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
+  //win.setMenu(null);
 
   //for dev do this:
-  //win.loadURL(`http://localhost:3000`);
-  //win.webContents.openDevTools();
+  win.loadURL(`http://localhost:3000`);
+  win.webContents.openDevTools();
 
   win.webContents.session.clearCache();
   // Emitted when the window is closed.

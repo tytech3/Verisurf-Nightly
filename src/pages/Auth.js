@@ -7,6 +7,8 @@ import Layout from '../Layout.js'
 import AWS from 'aws-sdk';
 import SnackBar from '../components/SnackBar.js';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 
 var useStyles = theme => ({
     root: {
@@ -61,9 +63,23 @@ class Auth extends Component {
         this.errorMessage = 'Error logging in. Please check credentials and try again.'
         this.variant = 'error'
 
+        //signup variables
+        this.suFirstName=""
+        this.suLastName=""
+        this.suEmail=""
+        this.suPassword=""
+        this.suConfirmPassword=""
+
         this.state={
             loginResult: false,
             openSnack: false,
+            isSigningUp: true,
+            emailHelper: "",
+            passwordHelper: "",
+            confirmedPasswordHelper: "",
+            emailError: false,
+            passwordError: false,
+            confirmPasswordError: false,
         }
     }
 
@@ -91,6 +107,29 @@ class Auth extends Component {
       })
     }
 
+    signUpClick = () => {
+        if(!this.validateEmailRegxp()){
+            this.setState({emailError: true, emailHelper: "Invalid email. Must be verisurf domain."})
+        }
+        if(!this.validatePasswordRegxp()){
+            this.setState({passwordError: true, passwordHelper: "Password must be minimum of 8 characters with at least 1 number & 1 letter."})
+        }
+        if(this.suPassword !== this.suConfirmPassword){
+            this.setState({confirmPasswordError: true, confirmedPasswordHelper: "Passwords do not match."})
+        }
+    }
+
+
+    validatePasswordRegxp = () => {
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        return passwordPattern.test(this.suPassword);
+    }
+
+    validateEmailRegxp = () => {
+        var emailPattern = /^[a-zA-Z0-9._-]+@[v | V]{1}[e|E]{1}[r|R]{1}[i|I]{1}[s|S]{1}[u|U]{1}[r|R]{1}[f|F]{1}\.[c][o][m]$/;
+        return emailPattern.test(this.suEmail);
+    }
+
     render() {
         const { classes } = this.props;
 
@@ -99,6 +138,97 @@ class Auth extends Component {
             localStorage.setItem('s3AccessKey', this.accessKey)
             localStorage.setItem('s3SecretKey', this.secretKey)
             return <Layout />
+        }
+
+        if(this.state.isSigningUp){
+            return(
+                <div className={"container"}>
+                <div id='stars'></div>
+                <div id='stars2'></div>
+                <div id='stars3'></div>
+                <div className={"signupForm"}>
+                    <div className={"signupCard"}>
+                        <div className={"signupHeader"}>
+                            <Typography color='secondary' style={{fontSize: '2.0rem', color: 'black', 
+                            fontWeight: 'lighter', letterSpacing: 5}} 
+                            variant="overline" 
+                            display="block" 
+                            gutterBottom>
+                                Sign Up
+                            </Typography>
+                        </div>
+                        <div className={"nameForms"}>
+                            <TextField 
+                                id="standard-basic" 
+                                label="Firstname"
+                                onChange={(event) => {
+                                    this.suFirstName=event.target.value
+                                }} />
+                            <TextField 
+                                id="standard-basic" 
+                                label="Lastname"
+                                onChange={(event) => {
+                                    this.suLastName=event.target.value
+                                }} />
+                        </div>
+                        <div className={"restOfForm"}>
+                            <TextField  
+                                style={{marginTop: "3%", marginLeft: "3%", marginRight: "3%", marginBottom: '.1rem'}} 
+                                id="standard-basic" 
+                                label="Email"
+                                error={this.state.emailError}
+                                helperText={this.state.emailHelper}
+                                onFocus={() => {this.setState({emailError: false, emailHelper: ""})}}
+                                onChange={(event) => {
+                                    this.suEmail=event.target.value
+                                }} />
+                            <TextField 
+                                type="password" 
+                                style={{marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: '.1rem'}} 
+                                id="standard-basic" 
+                                label="Password"
+                                error={this.state.passwordError}
+                                helperText={this.state.passwordHelper}
+                                onFocus={() => {this.setState({passwordError: false, passwordHelper: ""})}}
+                                onChange={(event) => {
+                                    this.suPassword=event.target.value
+                                }} />
+                            <TextField 
+                                type="password" 
+                                style={{marginTop: "5%", marginLeft: "3%", marginRight: "3%"}} 
+                                id="standard-basic" 
+                                label="Confirm Password"
+                                error={this.state.confirmPasswordError}
+                                helperText={this.state.confirmedPasswordHelper}
+                                onFocus={() => {this.setState({confirmPasswordError: false, confirmedPasswordHelper: ""})}}
+                                onChange={(event) => {
+                                    this.suConfirmPassword=event.target.value
+                                }} />
+                        </div>
+                        <div className={"signupFooter"}>
+                            <div className={"signupButton"}>
+                                <Button 
+                                    variant="contained" 
+                                    color="secondary" 
+                                    style={{paddingLeft: "5rem", paddingRight: "5rem"}}
+                                    onClick={this.signUpClick}>
+                                    Sign Up
+                                </Button>
+                            </div>
+                            <div className={"backToLogin"}>
+                                <Typography style={{marginRight: '10px'}}>
+                                    Already have an account?
+                                </Typography>
+                                <Typography color={"secondary"} style={{cursor: "pointer"}} onClick={()=>{this.setState({isSigningUp: !this.state.isSigningUp})}}>
+                                    {" Login here."}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                { this.state.openSnack && <SnackBar result={this.errorMessage} variant={this.variant} clear={this.closeSnack} close={this.closeSnack}/> }
+                </div>
+            )
         }
 
         return (
@@ -130,7 +260,7 @@ class Auth extends Component {
                 }}>
                 <Input 
                     style={{width: '25vh', color: 'white', textAlign: 'center',}} 
-                    placeholder="User ID" 
+                    placeholder="Email" 
                     inputProps={{'aria-label': 'description'}}
                     underlineFocusStyle={{borderColor: 'white'}}
                     classes={{underline: classes.underline}}
@@ -164,7 +294,7 @@ class Auth extends Component {
 
               <Input 
                   style={{width: '25vh', color: 'white', textAlign: 'center',}} 
-                  placeholder="Passcode" 
+                  placeholder="Password" 
                   inputProps={{'aria-label': 'description'}}
                   underlineFocusStyle={{borderColor: 'white'}}
                   classes={{underline: classes.underline}}
@@ -187,6 +317,12 @@ class Auth extends Component {
                      }} />
             </form>
             <Button variant="contained" style={{marginTop: '1rem'}} onClick={this.checkCreds}>Login</Button>
+            <Button variant="contained" 
+                    color="secondary" 
+                    style={{marginTop: '1rem', marginLeft: '1rem'}} 
+                    onClick={() => {this.setState({isSigningUp: true})}}>
+                Sign Up
+            </Button>
             { this.state.openSnack && <SnackBar result={this.errorMessage} variant={this.variant} clear={this.closeSnack} close={this.closeSnack}/> }
             </div>
         )

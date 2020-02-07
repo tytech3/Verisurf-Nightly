@@ -16,6 +16,7 @@ try{
 catch(e){
   authenticated = false;
 }
+authenticated = false
 
 if(authenticated){
       routing = (
