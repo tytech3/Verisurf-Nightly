@@ -29,7 +29,7 @@ class Settings extends Component {
         super(props);
 
         this.state={
-            amt: 20,
+            amt: 10,
             active: ["pickerItem", "pickerItem", "pickerItem"]
         }   
     }
@@ -41,7 +41,7 @@ class Settings extends Component {
             this.setState({amt: maximum});
         }
         catch(e){
-            this.setState({amt: 20})
+            this.setState({amt: 10})
         }
 
     }
@@ -89,7 +89,7 @@ class Settings extends Component {
                 
                 <div className={'optionsContainer'}>
                     <div className={'optionsHeader'}>
-                        <Typography variant={'subtitle'} style={{fontSize: '1rem'}}>
+                        <Typography variant={'subtitle1'} style={{fontSize: '1rem'}}>
                             Max Nightly's Displayed
                         </Typography>
                     </div>
@@ -117,7 +117,7 @@ class Settings extends Component {
                 <Typography variant={'h4'}>
                     App
                 </Typography>
-                <Divider variant={'fullwidth'}/>
+                <Divider />
             </div>
             
             <div className={'optionsContainer'}>

@@ -1,0 +1,18 @@
+.successHeader {
+    display: flex;
+    margin-top: 40%;
+    height: 10%;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.successSub{
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+

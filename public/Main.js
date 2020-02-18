@@ -2,14 +2,14 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path');
 const regedit = require("regedit");
 const { autoUpdater } = require('electron-updater');
-const { dialog, Notification, } = require('electron');
+const { dialog, Notification } = require('electron');
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 let installPath
-
+app.commandLine.appendSwitch('ignore-certificate-errors');
 const nativeImage = require('electron').nativeImage;
 let image = nativeImage.createFromPath(__dirname + './icon.ico'); 
  // where public folder on the root dir
@@ -23,7 +23,10 @@ function createWindow () {
       minHeight: 800,
       minWidth: 1200,
       icon: image,
-    webPreferences: { nodeIntegration: true }
+      webPreferences: { 
+        nodeIntegration: true,
+        webSecurity: false,
+      }
   })
 
 
