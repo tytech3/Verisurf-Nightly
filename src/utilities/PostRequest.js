@@ -4,7 +4,7 @@ export default function PostRequest(uri, body) {
       var request = require("request");
       var options = {
         method: "POST",
-        url: "http://localhost:9901/"+uri,
+        url: "https://nightlyrestapi.herokuapp.com/"+uri,
         body: body
       };
       request(options, function(error, response) {
@@ -12,7 +12,7 @@ export default function PostRequest(uri, body) {
           reject(response.statusCode)
         }
         else{
-          if(response.statusCode == 200){
+          if(response.statusCode === 200){
             resolve(response.statusCode)
           }
           else{

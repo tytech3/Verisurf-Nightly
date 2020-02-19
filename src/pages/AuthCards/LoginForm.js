@@ -6,9 +6,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import LoginRequest from "../../utilities/LoginRequest.js";
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from "@material-ui/core/Checkbox";
 import "./LoginForm.css";
-const {ipcRenderer} = window.require('electron');
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -20,33 +19,36 @@ export default class LoginForm extends Component {
     this.state = {
       loginError: false,
       loginHelperText: "",
-      rememberMe: false
+      rememberMe: false,
+      pass: "",
+      user: "",
     };
   }
 
-  componentDidMount(){
-    try{
-      this.user=localStorage.getItem("userName")
-      this.pass=localStorage.getItem("pass")
-      this.setState({rememberMe: true})
-    }
-    catch(error){
-      //nothing here.
+  componentDidMount() {
+    try {
+      if(localStorage.getItem("rememberMe") === "true"){
+        var username = localStorage.getItem("userName");
+        var password = localStorage.getItem("pass");
+        this.setState({ rememberMe: true, user: username, pass: password });
+      }
+    } catch (error) {
+
     }
   }
 
   loginToApp = () => {
-    LoginRequest(this.user, this.pass).then(
+    LoginRequest(this.state.user, this.state.pass).then(
       resolve => {
-        if(this.state.rememberMe){
-          localStorage.setItem("userName", this.user)
-          localStorage.setItem("pass", this.pass)
+        if (this.state.rememberMe) {
+          localStorage.setItem("rememberMe", true)
+          localStorage.setItem("userName", this.state.user);
+          localStorage.setItem("pass", this.state.pass);
         }
-        console.log("RESOLVE: " + resolve);
+
         this.props.login();
       },
       reject => {
-        console.log("REJECT: " + reject);
         this.setState({
           loginError: true,
           loginHelperText: "Invalid credentials. Please try again."
@@ -55,9 +57,10 @@ export default class LoginForm extends Component {
     );
   };
 
-  rememberMeClick = (value) => {
-    this.setState({rememberMe: value})
-  }
+  rememberMeClick = value => {
+    this.setState({ rememberMe: value });
+    localStorage.setItem("rememberMe", value)
+  };
 
   render() {
     return (
@@ -83,12 +86,12 @@ export default class LoginForm extends Component {
           <TextField
             label="Username"
             onChange={event => {
-              this.user = event.target.value;
+              this.setState({user: event.target.value});
             }}
             style={{ marginLeft: "10%", marginRight: "10%" }}
             error={this.state.loginError}
             helperText={this.state.loginHelperText}
-            value={this.user}
+            value={this.state.user}
             onFocus={() => {
               this.setState({ loginError: false, loginHelperText: "" });
             }}
@@ -105,10 +108,13 @@ export default class LoginForm extends Component {
             label="Password"
             style={{ marginLeft: "10%", marginRight: "10%", marginTop: "10%" }}
             variant="outlined"
-            value={this.pass}
+            value={this.state.pass}
             type="password"
             onChange={event => {
-              this.pass = event.target.value;
+              this.setState({pass: event.target.value})
+            }}
+            onFocus={() => {
+              this.setState({ loginError: false, loginHelperText: "" });
             }}
             InputProps={{
               startAdornment: (
@@ -143,7 +149,7 @@ export default class LoginForm extends Component {
 
           <div className={"forgotSignup"}>
             <div className={"seperator"}>
-                <Typography
+              <Typography
                 color="primary"
                 style={{ cursor: "pointer", fontWeight: "light" }}
                 onClick={() => {
@@ -156,19 +162,21 @@ export default class LoginForm extends Component {
             <div className={"seperator"}>
               <Checkbox
                 checked={this.state.rememberMe}
-                onChange={(event) => {this.rememberMeClick(event.target.value)}}
-                inputProps={{ 'aria-label': 'primary checkbox' }} />
+                onChange={event => {
+                  this.rememberMeClick(!this.state.rememberMe);
+                }}
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
               <Typography
-              color="Primary"
-              style={{fontWeight: "light", cursor: "pointer" }}
-              onClick={() => {
-                this.rememberMeClick(!this.state.rememberMe)
-              }}
+                color="primary"
+                style={{ fontWeight: "light", cursor: "pointer" }}
+                onClick={() => {
+                  this.rememberMeClick(!this.state.rememberMe);
+                }}
               >
-              Remember me
-            </Typography>
-        </div>
-
+                Remember me
+              </Typography>
+            </div>
           </div>
         </div>
       </React.Fragment>

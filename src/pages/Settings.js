@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Button } from '@material-ui/core';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Auth from './Auth.js';
 const {ipcRenderer} = window.require('electron');
 
 const styles = theme => ({
@@ -30,8 +32,15 @@ class Settings extends Component {
 
         this.state={
             amt: 10,
-            active: ["pickerItem", "pickerItem", "pickerItem"]
+            active: ["pickerItem", "pickerItem", "pickerItem"],
+            logout: false
         }   
+    }
+
+
+
+    logout = () => {
+        this.props.logout();
     }
 
     componentWillMount(){
@@ -78,6 +87,9 @@ class Settings extends Component {
 
     render() {
         const {classes} = this.props;
+        if(this.state.logout){
+            return <Auth />
+        }
         return (
             <div className={'settingsLayout'}>                               
                 <div className={'settingsHeader'}>
@@ -155,6 +167,15 @@ class Settings extends Component {
                         startIcon={<SystemUpdateAltIcon />}>
                         Check For Updates
                     </Button>
+                </div>
+
+                <div style={{position: 'fixed', bottom: 2, left: 165}}>
+                    <Button
+                        onClick={this.logout}
+                        variant="contained"
+                        startIcon={<ExitToAppIcon />}>
+                            Logout
+                        </Button>
                 </div>
 
                 </div>

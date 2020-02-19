@@ -4,10 +4,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import "./SignUp.css";
 
-var randtoken = require('rand-token').generator({
-    chars: '0-9'
-})
-var token;
 
 export class SignUp extends Component {
   constructor(props) {
@@ -77,11 +73,7 @@ export class SignUp extends Component {
 
 
     if (passed) {
-      //this is a global variable
-      token = randtoken.generate(6)
-      this.props.toValidate(this.suEmail, token);
-      //var didSendRegistration = HttpPOST(token, this.suEmail)
-      //console.log(didSendRegistration)
+
     }
   };
 

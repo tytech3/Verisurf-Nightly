@@ -18,7 +18,7 @@ class TestPage extends Component {
 
         this.state ={
             cardArray: [],
-            maxNightly: 20,
+            maxNightly: 10,
             prevArray: [],
             skeletonArray: []
         }
@@ -56,10 +56,8 @@ class TestPage extends Component {
       var json = JSON.parse(data)
       var localCardArray = []
       var index = json.length -1
-      var stop = json.length - this.state.maxNightly
       localStorage.setItem('recentBuild', Object.keys(json[index]))
       while(index > -1){
-        if(index == stop){break}
         var innerjson = json[index]
         var versionKey = Object.keys(innerjson)
         localCardArray.push(
@@ -82,7 +80,7 @@ class TestPage extends Component {
     componentDidMount = () => {
         this.props.onRef(this)
         this.props.clearBadge();
-        HttpRequest('/nightly').then(result => {
+        HttpRequest('/nightly/'+this.state.maxNightly).then(result => {
           this.setUpData(result)
       }, err => console.log(err))
         

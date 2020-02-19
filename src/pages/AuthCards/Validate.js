@@ -18,7 +18,7 @@ export default class Validate extends Component {
   }
 
   testValidation = () => {
-    if(this.userInput == this.props.userToken){
+    if(this.userInput === this.props.userToken){
       //validated
     }
     else{

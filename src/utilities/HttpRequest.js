@@ -3,7 +3,7 @@ export default function HttpRequest(path) {
       var request = require('request');
       var options = {
       'method': 'GET',
-      'url': 'http://localhost:9901'+path
+      'url': 'https://nightlyrestapi.herokuapp.com'+path
     };
     request(options, function (error, response) { 
       if(error){
@@ -17,7 +17,7 @@ export default function HttpRequest(path) {
       catch(error){
         statusCode = null
       }
-      if(statusCode == 200){
+      if(statusCode === 200){
         resolve(response.body)
       }
       else{

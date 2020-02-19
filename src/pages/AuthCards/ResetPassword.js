@@ -110,7 +110,7 @@ class ResetPassword extends Component {
                 }}
               />
               <CoolButton
-                uri={"reset"}
+                uri={"resetter"}
                 body={this.state.userEmail}
                 Success={this.success}
                 Fail={this.fail}
@@ -146,7 +146,7 @@ class ResetPassword extends Component {
                 onChange={event => {
                   var x = JSON.stringify({
                     Email: this.email,
-                    Token: parseInt(event.target.value)
+                    Token: event.target.value
                   });
                   this.setState({ userToken: x });
                 }}

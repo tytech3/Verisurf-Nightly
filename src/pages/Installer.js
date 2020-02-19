@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import LinearProgress from '../components/LinearProgress.js';
 import SnackBar from '../components/SnackBar.js';
-import AWS from 'aws-sdk';
+import HttpRequest from '../utilities/HttpRequest.js';
 const {ipcRenderer} = window.require('electron');
-
 var isMounted = false;
-
-AWS.config.update({
-    accessKeyId: localStorage.getItem('s3AccessKey'),
-    secretAccessKey: localStorage.getItem('s3SecretKey')
-})
-
 class Installer extends Component {
     constructor(props) {
         super(props);
@@ -19,16 +12,18 @@ class Installer extends Component {
         this.isDownloading = false;
         this.downloadQueue = [];
         this.openSnack = false;
+        this.s3AccessKey = "";
+        this.s3SecretKey = "";
         this.state={
             completed: 0,
         }
 
     }
-    //test
 
     closeSnack = () => {
       this.openSnack = false;
     }
+
 
     installFiles = async (version)  => {
 
@@ -58,8 +53,8 @@ class Installer extends Component {
         
         var arg = {
           version: this.downloadQueue[0],
-          s3AccessKey: localStorage.getItem('s3AccessKey'),
-          s3SecretKey: localStorage.getItem('s3SecretKey')
+          s3AccessKey: this.s3AccessKey,
+          s3SecretKey: this.s3SecretKey
         }
         
         ipcRenderer.send('downloadDir', arg);
@@ -118,7 +113,14 @@ class Installer extends Component {
 
     componentDidMount(){
       this.props.onRef(this)
-        isMounted = true;
+      isMounted = true;
+
+      HttpRequest('/key/aws').then(result => {
+        var json = JSON.parse(result)
+        this.s3AccessKey = json.AccessKey
+        this.s3SecretKey = json.SecretKey
+    }, err => console.log(err))
+      
     }
 
     render() {

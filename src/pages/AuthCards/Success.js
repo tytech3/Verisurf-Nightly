@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from '@material-ui/core/CircularProgress';
 import './Success.css'
 
 export default class Success extends Component {

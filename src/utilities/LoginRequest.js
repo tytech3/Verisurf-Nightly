@@ -3,7 +3,7 @@ export default function LoginRequest(email, password) {
     var request = require("request");
     var options = {
       'method': 'POST',
-      'url': 'http://localhost:9901/login',
+      'url': 'https://nightlyrestapi.herokuapp.com/login',
       body: JSON.stringify({ Email: email, Password: password })
     };
     request(options, function(error, response) {
@@ -18,7 +18,7 @@ export default function LoginRequest(email, password) {
       catch(error){
         statusCode = null
       }
-      if(statusCode == 200){
+      if(statusCode === 200){
         resolve(response.statusCode)
       }
       else{
