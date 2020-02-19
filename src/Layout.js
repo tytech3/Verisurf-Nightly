@@ -11,7 +11,6 @@ import TestPage from './pages/TestPage.js';
 import Settings from './pages/Settings.js';
 import Auth from './pages/Auth.js';
 import Fade from 'react-reveal/Fade';
-import AWS from 'aws-sdk';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import AppBar from '@material-ui/core/AppBar';
@@ -76,10 +75,7 @@ const styles = theme => ({
     },
 })
 
-AWS.config.update({
-    accessKeyId: localStorage.getItem('s3AccessKey'),
-    secretAccessKey: localStorage.getItem('s3SecretKey')
-})
+
 const {ipcRenderer} = window.require('electron');
 
 //This component is the parent of all views after authentication.
@@ -111,6 +107,13 @@ class Layout extends Component {
 
     clearNewNightly = () => {
         this.setState({noNewNightly: true})
+    }
+
+    logout = () => {
+        localStorage.removeItem("rememberMe")
+        localStorage.removeItem("userName")
+        localStorage.removeItem("pass")
+        this.setState({authorized: false})
     }
 
     setUpData = (data) => {
@@ -164,7 +167,7 @@ class Layout extends Component {
     render() {
         const {classes} = this.props;
         if(!this.state.authorized){
-            return <Auth />
+            return <Auth history={this.props.history} />
         }
         return (
             <div>
@@ -249,7 +252,7 @@ class Layout extends Component {
                             <TestPage  install={this.install} json={this.jsonresp} clearBadge={this.clearNewNightly} onRef={ref => (this.searchBuild = ref)} disableInstall={this.state.currentVersion === null} />
                         </Route>
                         <Route exact path="/settings">
-                            <Settings />
+                            <Settings logout={this.logout}/>
                         </Route>
                     </Switch>
                 </div>

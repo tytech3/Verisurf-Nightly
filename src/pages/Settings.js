@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Button } from '@material-ui/core';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Auth from './Auth.js';
 const {ipcRenderer} = window.require('electron');
 
 const styles = theme => ({
@@ -29,9 +31,16 @@ class Settings extends Component {
         super(props);
 
         this.state={
-            amt: 20,
-            active: ["pickerItem", "pickerItem", "pickerItem"]
+            amt: 10,
+            active: ["pickerItem", "pickerItem", "pickerItem"],
+            logout: false
         }   
+    }
+
+
+
+    logout = () => {
+        this.props.logout();
     }
 
     componentWillMount(){
@@ -41,7 +50,7 @@ class Settings extends Component {
             this.setState({amt: maximum});
         }
         catch(e){
-            this.setState({amt: 20})
+            this.setState({amt: 10})
         }
 
     }
@@ -78,6 +87,9 @@ class Settings extends Component {
 
     render() {
         const {classes} = this.props;
+        if(this.state.logout){
+            return <Auth />
+        }
         return (
             <div className={'settingsLayout'}>                               
                 <div className={'settingsHeader'}>
@@ -89,7 +101,7 @@ class Settings extends Component {
                 
                 <div className={'optionsContainer'}>
                     <div className={'optionsHeader'}>
-                        <Typography variant={'subtitle'} style={{fontSize: '1rem'}}>
+                        <Typography variant={'subtitle1'} style={{fontSize: '1rem'}}>
                             Max Nightly's Displayed
                         </Typography>
                     </div>
@@ -117,7 +129,7 @@ class Settings extends Component {
                 <Typography variant={'h4'}>
                     App
                 </Typography>
-                <Divider variant={'fullwidth'}/>
+                <Divider />
             </div>
             
             <div className={'optionsContainer'}>
@@ -155,6 +167,15 @@ class Settings extends Component {
                         startIcon={<SystemUpdateAltIcon />}>
                         Check For Updates
                     </Button>
+                </div>
+
+                <div style={{position: 'fixed', bottom: 2, left: 165}}>
+                    <Button
+                        onClick={this.logout}
+                        variant="contained"
+                        startIcon={<ExitToAppIcon />}>
+                            Logout
+                        </Button>
                 </div>
 
                 </div>
