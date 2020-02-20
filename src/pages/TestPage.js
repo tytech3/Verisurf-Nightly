@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import './TestPage.css';
 import VerisurfCard from '../components/verisurfCard.js';
-import AWS from 'aws-sdk';
 import Grid from "@material-ui/core/Grid";
 import HttpRequest from '../utilities/HttpRequest.js';
 
-
-AWS.config.update({
-  accessKeyId: localStorage.getItem('s3AccessKey'),
-  secretAccessKey: localStorage.getItem('s3SecretKey')
-})
 class TestPage extends Component {
     
     constructor(props){
@@ -34,7 +28,7 @@ class TestPage extends Component {
       var skeleton = []
       for(index; index < 15; index += 1){
         skeleton.push(
-          <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
+          <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}} key={index}>
             <VerisurfCard
               type={'skeleton'}
               />
@@ -59,7 +53,7 @@ class TestPage extends Component {
         var innerjson = json[index]
         var versionKey = Object.keys(innerjson)
         localCardArray.push(
-          <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
+          <Grid item md={10} style={{alignContent: 'center', alignItems: 'center', justifyContent: 'center'}} key={index}>
             <VerisurfCard
               type={'content'}
               props={innerjson[versionKey]} 
@@ -92,7 +86,7 @@ class TestPage extends Component {
     render() {
         return (
           <div style={{height: '100%', width: '100%'}}>
-            <div className={'cards'}>
+            <div className={'cards'}>           
               <div className={'downloadText'}><p id={'currentDownload'}>{this.state.currentDownload}</p></div>
                 <Grid container spacing={5} style={{alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}> 
                   {this.state.prevArray.length === 0 ? this.state.skeletonArray : this.state.cardArray}

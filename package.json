@@ -1,6 +1,6 @@
 {
   "name": "verisurf-nightly",
-  "version": "2.0.01",
+  "version": "2.0.1",
   "main": "public/Main.js",
   "repository": {
     "type": "git",

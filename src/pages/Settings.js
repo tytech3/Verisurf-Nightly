@@ -100,7 +100,7 @@ class Settings extends Component {
                     <Typography variant={'h4'}>
                         Nightly
                     </Typography>
-                    <Divider variant={'fullwidth'}/>
+                    <Divider variant='fullWidth'/>
                 </div>
                 
                 <div className={'optionsContainer'}>

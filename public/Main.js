@@ -9,7 +9,7 @@ const { dialog, Notification } = require('electron');
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 let installPath
-app.commandLine.appendSwitch('ignore-certificate-errors');
+//app.commandLine.appendSwitch('ignore-certificate-errors');
 const nativeImage = require('electron').nativeImage;
 let image = nativeImage.createFromPath(__dirname + './icon.ico'); 
  // where public folder on the root dir
@@ -29,17 +29,15 @@ function createWindow () {
       }
   })
 
-
-  // and load the index.html of the app.
-  //switch to this when you need to build.
-
   //prod:
-  win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
-  win.setMenu(null);
-
-  //for dev do this:
-  //win.loadURL(`http://localhost:3000`);
-  //win.webContents.openDevTools();
+  if(app.isPackaged){
+    win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
+    win.setMenu(null);
+  }
+  else{
+    win.loadURL(`http://localhost:3000`);
+    win.webContents.openDevTools();
+  }
 
   win.webContents.session.clearCache();
   // Emitted when the window is closed.

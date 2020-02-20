@@ -125,6 +125,7 @@ class HomePage extends React.Component {
                 </Paper>
                 </div>
                 </Fade>
+
                 <div style={{marginTop: 'auto', marginBottom: '2rem', marignLeft: '5%', marignRight: '5%', backgroundColor: '#FFFFFF', borderRadius: '3%'}}>
                    {this.props.hasGraphData && <ApexChart graphDataPassing={this.props.graphDataPassing} graphDataFailing={this.props.graphDataFailing} />}
                 </div>

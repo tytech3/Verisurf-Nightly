@@ -26,7 +26,6 @@ class Auth extends Component {
       openSnack: false,
       isSigningUp: true,
       isValidating: false,
-      //activeForm: <ResetPassword />
       activeForm:  <LoginForm resetPassword={this.toReset} login={this.loginToApp} />
     };
   }
