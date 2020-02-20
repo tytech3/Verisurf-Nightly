@@ -25,13 +25,11 @@ class TestPage extends Component {
     }
 
     componentWillMount(){
-      try{
         var max = localStorage.getItem('maxNightly');
-        this.setState({maxNightly: max});
-      }
-      catch(e){
-        console.log("no setting found.");
-      }
+        if(max != null && !isNaN(parseInt(max))){
+          this.setState({maxNightly: max})
+        }
+     
       var index  = 0
       var skeleton = []
       for(index; index < 15; index += 1){

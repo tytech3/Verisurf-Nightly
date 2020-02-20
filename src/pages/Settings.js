@@ -44,20 +44,24 @@ class Settings extends Component {
     }
 
     componentWillMount(){
-        try{
-            var maximum = localStorage.getItem('maxNightly');
-            maximum = parseInt(maximum)
-            this.setState({amt: maximum});
-        }
-        catch(e){
-            this.setState({amt: 10})
-        }
+      var max = localStorage.getItem('maxNightly')
 
+      if(max !== null){
+          if(!isNaN(parseInt(max))){
+              this.setState({amt: parseInt(max)})
+          }
+      }
+      
     }
 
     handleChange = (event) => {
         localStorage.setItem('maxNightly', event.target.value);
-        this.setState({amt: event.target.value})
+        //this.setState({amt: event.target.value})
+
+
+        this.setState({amt: parseInt(localStorage.getItem("maxNightly"))})
+
+        
     }
 
     checkUpdate = () => {
@@ -72,7 +76,7 @@ class Settings extends Component {
         localStorage.setItem("startPage", num)
       };
 
-      componentDidMount= () => {
+    componentDidMount= () => {
         var newActive = ["pickerItem", "pickerItem"];
         var x = localStorage.getItem("startPage")
         if(x === '0' || x === '1'){
@@ -162,6 +166,7 @@ class Settings extends Component {
 
                 <div style={{position: 'fixed', bottom: 2, right: 0}}>
                     <Button
+                        size="small"
                         onClick={this.checkUpdate}
                         variant="contained"
                         startIcon={<SystemUpdateAltIcon />}>
@@ -171,13 +176,13 @@ class Settings extends Component {
 
                 <div style={{position: 'fixed', bottom: 2, left: 165}}>
                     <Button
+                        size="small"
                         onClick={this.logout}
                         variant="contained"
                         startIcon={<ExitToAppIcon />}>
-                            Logout
+                            Logout of {localStorage.getItem("userName")}
                         </Button>
                 </div>
-
                 </div>
             </div>
         );
