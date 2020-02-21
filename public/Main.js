@@ -204,8 +204,8 @@ ipcMain.on('downloadDir', (event, arg) => {
     localDir: installPath,
     deleteRemoved: false,
     s3Params:{
-      Bucket: 'vs2020',
-      Prefix: 'nightly/' + version + '/install/root'
+      Bucket: 'appvs2020',
+      Prefix: 'nightly/2020/' + version + '/install/root'
     }
   });
 
