@@ -55,7 +55,7 @@
   "devDependencies": {
     "@auth0/s3": "^1.0.0",
     "aws-sdk": "^2.607.0",
-    "electron": "^7.1.9",
+    "electron": "^9.4.0",
     "electron-builder": "^21.2.0",
     "electron-updater": "^4.2.0",
     "react-reveal": "^1.2.2",
